@@ -15,3 +15,14 @@ npm run build
 ## Project Notes
 
 Persistent planning context lives in `project-hub/`.
+
+## Cloudflare Pages
+
+Use the `Next.js (Static HTML Export)` preset.
+
+```text
+Production branch: main
+Build command: npm run build
+Build output directory: out
+Deploy command: leave blank
+```

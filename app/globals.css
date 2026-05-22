@@ -1671,15 +1671,15 @@ ul {
 .photo-angle-card__visual {
   display: grid;
   place-items: center;
-  min-height: 8rem;
+  min-height: 9.4rem;
   border-radius: calc(var(--radius-md) - 0.25rem);
   background:
-    radial-gradient(circle at center, rgba(245, 230, 190, 0.44), transparent 48%),
-    linear-gradient(160deg, rgba(224, 242, 247, 0.82), rgba(232, 224, 213, 0.72));
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.92), transparent 26%),
+    linear-gradient(160deg, rgba(224, 242, 247, 0.92), rgba(232, 224, 213, 0.76));
 }
 
 .photo-angle-card svg {
-  width: min(100%, 8.8rem);
+  width: min(100%, 11.5rem);
   height: auto;
 }
 
@@ -1694,11 +1694,45 @@ ul {
 }
 
 .angle-svg__skin {
-  fill: #d9bda0;
+  fill: #d9b38f;
 }
 
 .angle-svg__hair {
-  fill: #1b3022;
+  fill: #18251e;
+}
+
+.angle-svg__phone {
+  fill: rgba(255, 253, 248, 0.86);
+  stroke: rgba(27, 48, 34, 0.18);
+  stroke-width: 3;
+}
+
+.angle-svg__camera-dot {
+  fill: rgba(27, 48, 34, 0.32);
+}
+
+.angle-svg__viewfinder {
+  fill: rgba(255, 255, 255, 0.34);
+  stroke: rgba(27, 48, 34, 0.18);
+  stroke-dasharray: 5 5;
+  stroke-width: 2;
+}
+
+.angle-svg__shoulders {
+  fill: #6d7f69;
+}
+
+.angle-svg__ear {
+  fill: #c99f7d;
+}
+
+.angle-svg__hair-detail,
+.angle-svg__face-line {
+  fill: none;
+  stroke: rgba(27, 48, 34, 0.72);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
 }
 
 .angle-svg__hairline,
@@ -1718,6 +1752,30 @@ ul {
 .angle-svg__target {
   fill: rgba(199, 101, 59, 0.22);
   stroke: #c7653b;
+  stroke-width: 3;
+}
+
+.angle-svg__spot {
+  fill: rgba(186, 57, 43, 0.52);
+  stroke: rgba(138, 47, 33, 0.62);
+  stroke-width: 1.5;
+}
+
+.angle-svg__spot--small {
+  fill: rgba(186, 57, 43, 0.38);
+}
+
+.angle-svg__magnifier {
+  fill: rgba(255, 255, 255, 0.12);
+  stroke: rgba(27, 48, 34, 0.62);
+  stroke-width: 4;
+}
+
+.angle-svg__corner {
+  fill: none;
+  stroke: rgba(27, 48, 34, 0.58);
+  stroke-linecap: round;
+  stroke-linejoin: round;
   stroke-width: 3;
 }
 

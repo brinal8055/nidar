@@ -134,27 +134,27 @@ const photoAngles = [
   {
     id: "front",
     title: "Front hairline",
-    helper: "Face camera directly. Lift hair back so the full front hairline is visible.",
+    helper: "Straight-on face photo. Pull hair back so the forehead and full front hairline are visible.",
   },
   {
     id: "left",
     title: "Left temple",
-    helper: "Turn slightly right so your left temple and hairline corner are visible.",
+    helper: "Temple means the side corner above the eyebrow. Turn slightly right and capture the left corner.",
   },
   {
     id: "right",
     title: "Right temple",
-    helper: "Turn slightly left so your right temple and hairline corner are visible.",
+    helper: "Temple means the side corner above the eyebrow. Turn slightly left and capture the right corner.",
   },
   {
     id: "crown",
     title: "Crown / top",
-    helper: "Tilt head down or ask someone to capture the top and crown area.",
+    helper: "Top/back thinning area. Tilt head down or ask someone to take the photo from above.",
   },
   {
     id: "close",
     title: "Scalp close-up",
-    helper: "Only needed if there are flakes, redness, irritation, patches, or sores.",
+    helper: "Move closer to the problem spot and fill the frame with flakes, redness, patches, or sores.",
   },
 ] as const;
 
@@ -271,15 +271,22 @@ function getMeaningfulRedFlags(redFlags: string[]) {
 }
 
 function PhotoAngleIllustration({ angle }: { angle: (typeof photoAngles)[number]["id"] }) {
+  const ariaLabel = `${photoAngles.find((item) => item.id === angle)?.title ?? angle} photo angle demo`;
+
   if (angle === "crown") {
     return (
-      <svg viewBox="0 0 160 160" role="img" aria-label="Top view head photo angle">
-        <circle className="angle-svg__skin" cx="80" cy="80" r="54" />
-        <path className="angle-svg__hair" d="M31 79c0-34 21-55 49-55s49 21 49 55c-12-12-26-18-49-18S43 67 31 79Z" />
-        <circle className="angle-svg__target" cx="80" cy="78" r="22" />
-        <path className="angle-svg__line" d="M61 78h38M80 59v38" />
-        <text x="80" y="136" textAnchor="middle">
-          TOP
+      <svg viewBox="0 0 220 180" role="img" aria-label={ariaLabel}>
+        <rect className="angle-svg__phone" x="18" y="12" width="184" height="142" rx="24" />
+        <circle className="angle-svg__camera-dot" cx="186" cy="30" r="5" />
+        <rect className="angle-svg__viewfinder" x="34" y="34" width="152" height="96" rx="18" />
+        <circle className="angle-svg__skin" cx="110" cy="82" r="44" />
+        <path className="angle-svg__hair" d="M66 80c0-31 18-51 44-51s44 20 44 51c-14-11-28-15-44-15s-30 4-44 15Z" />
+        <path className="angle-svg__hair-detail" d="M82 66c12-10 43-12 58 0M75 84c19-10 51-10 70 0" />
+        <circle className="angle-svg__target" cx="110" cy="83" r="23" />
+        <path className="angle-svg__line" d="M89 83h42M110 62v42" />
+        <path className="angle-svg__corner" d="M57 52h18M57 52v18M163 52h-18M163 52v18M57 112h18M57 112V94M163 112h-18M163 112V94" />
+        <text x="110" y="169" textAnchor="middle">
+          TAKE FROM ABOVE
         </text>
       </svg>
     );
@@ -287,14 +294,20 @@ function PhotoAngleIllustration({ angle }: { angle: (typeof photoAngles)[number]
 
   if (angle === "close") {
     return (
-      <svg viewBox="0 0 160 160" role="img" aria-label="Scalp close-up photo angle">
-        <rect className="angle-svg__skin" x="34" y="34" width="92" height="92" rx="28" />
-        <path className="angle-svg__hairline" d="M45 75c14-21 55-24 72-4" />
-        <path className="angle-svg__line" d="M53 92c8-8 16-8 24 0M83 96c10-9 20-9 30 0" />
-        <circle className="angle-svg__target" cx="62" cy="66" r="5" />
-        <circle className="angle-svg__target" cx="103" cy="84" r="5" />
-        <text x="80" y="136" textAnchor="middle">
-          CLOSE
+      <svg viewBox="0 0 220 180" role="img" aria-label={ariaLabel}>
+        <rect className="angle-svg__phone" x="18" y="12" width="184" height="142" rx="24" />
+        <circle className="angle-svg__camera-dot" cx="186" cy="30" r="5" />
+        <rect className="angle-svg__viewfinder" x="34" y="34" width="152" height="96" rx="18" />
+        <rect className="angle-svg__skin" x="58" y="45" width="104" height="70" rx="24" />
+        <path className="angle-svg__hair-detail" d="M67 61c15-13 27-13 42 0M106 62c16-13 31-13 47 0M67 83c19-15 37-15 56 0M101 101c15-10 30-10 45 0" />
+        <circle className="angle-svg__spot" cx="83" cy="73" r="5" />
+        <circle className="angle-svg__spot" cx="130" cy="88" r="5" />
+        <circle className="angle-svg__spot angle-svg__spot--small" cx="112" cy="70" r="3" />
+        <circle className="angle-svg__magnifier" cx="111" cy="82" r="41" />
+        <path className="angle-svg__line" d="M141 112l23 23" />
+        <path className="angle-svg__corner" d="M52 48h18M52 48v18M168 48h-18M168 48v18M52 122h18M52 122v-18M168 122h-18M168 122v-18" />
+        <text x="110" y="169" textAnchor="middle">
+          CLOSE-UP OF SPOT
         </text>
       </svg>
     );
@@ -302,28 +315,54 @@ function PhotoAngleIllustration({ angle }: { angle: (typeof photoAngles)[number]
 
   const isLeft = angle === "left";
   const isRight = angle === "right";
+  const turnText = isLeft ? "TURN RIGHT" : isRight ? "TURN LEFT" : "FACE CAMERA";
+  const focusX = isLeft ? 80 : isRight ? 140 : 110;
+  const focusY = isLeft || isRight ? 72 : 64;
 
   return (
-    <svg viewBox="0 0 160 160" role="img" aria-label={`${angle} head photo angle`}>
-      <ellipse className="angle-svg__skin" cx="80" cy="78" rx="42" ry="52" />
+    <svg viewBox="0 0 220 180" role="img" aria-label={ariaLabel}>
+      <rect className="angle-svg__phone" x="18" y="12" width="184" height="142" rx="24" />
+      <circle className="angle-svg__camera-dot" cx="186" cy="30" r="5" />
+      <rect className="angle-svg__viewfinder" x="34" y="34" width="152" height="96" rx="18" />
+      <path className="angle-svg__shoulders" d="M65 130c8-19 26-30 45-30s37 11 45 30v24H65Z" />
+      <rect className="angle-svg__skin" x="96" y="101" width="28" height="25" rx="12" />
+      <ellipse className="angle-svg__skin" cx="110" cy="78" rx={isLeft || isRight ? 35 : 39} ry="49" />
+      <ellipse className="angle-svg__ear" cx={isLeft ? 143 : 77} cy="82" rx="7" ry="12" />
       <path
         className="angle-svg__hair"
         d={
           isLeft
-            ? "M43 75c0-34 16-53 45-53 19 0 33 12 39 31-19-5-40-3-64 8-8 4-14 9-20 14Z"
+            ? "M75 76c0-31 16-52 44-52 22 0 38 14 43 36-21-5-43-3-65 8-8 4-15 7-22 8Z"
             : isRight
-              ? "M117 75c0-34-16-53-45-53-19 0-33 12-39 31 19-5 40-3 64 8 8 4 14 9 20 14Z"
-              : "M39 69c2-31 18-48 41-48s39 17 41 48c-16-12-30-16-41-16S55 57 39 69Z"
+              ? "M145 76c0-31-16-52-44-52-22 0-38 14-43 36 21-5 43-3 65 8 8 4 15 7 22 8Z"
+              : "M70 70c2-30 18-49 40-49s38 19 40 49c-16-11-29-15-40-15s-24 4-40 15Z"
         }
       />
       <path
         className="angle-svg__hairline"
-        d={isLeft ? "M52 71c13-11 28-17 47-18" : isRight ? "M108 71c-13-11-28-17-47-18" : "M51 70c18-13 40-13 58 0"}
+        d={
+          isLeft
+            ? "M80 76c18-13 34-19 57-20"
+            : isRight
+              ? "M140 76c-18-13-34-19-57-20"
+              : "M78 70c19-14 45-14 64 0"
+        }
       />
-      <circle className="angle-svg__target" cx={isLeft ? 55 : isRight ? 105 : 80} cy={isLeft || isRight ? 72 : 66} r="10" />
-      <path className="angle-svg__line" d={isLeft ? "M37 76h28" : isRight ? "M95 76h28" : "M56 66h48"} />
-      <text x="80" y="136" textAnchor="middle">
-        {isLeft ? "LEFT" : isRight ? "RIGHT" : "FRONT"}
+      <path
+        className="angle-svg__face-line"
+        d={
+          isLeft
+            ? "M102 80h.01M127 80h.01M114 84c-3 10-2 16 4 18M101 111c8 5 18 5 26 0"
+            : isRight
+              ? "M93 80h.01M118 80h.01M106 84c3 10 2 16-4 18M93 111c8 5 18 5 26 0"
+              : "M94 82h.01M126 82h.01M110 86c-4 10-3 17 0 20M97 114c8 6 18 6 26 0"
+        }
+      />
+      <circle className="angle-svg__target" cx={focusX} cy={focusY} r={isLeft || isRight ? 13 : 16} />
+      <path className="angle-svg__line" d={isLeft ? "M55 72h38" : isRight ? "M165 72h-38" : "M80 64h60"} />
+      <path className="angle-svg__corner" d="M49 48h18M49 48v18M171 48h-18M171 48v18M49 117h18M49 117V99M171 117h-18M171 117V99" />
+      <text x="110" y="169" textAnchor="middle">
+        {turnText}
       </text>
     </svg>
   );

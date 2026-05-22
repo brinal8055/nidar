@@ -4,11 +4,11 @@ export default function CheckoutPage() {
   return (
     <section className="section">
       <div className="container page-intro">
-        <p className="eyebrow">Checkout</p>
-        <h1>Collect the consult fee with a simple, explainable handoff.</h1>
+        <p className="eyebrow">Consult request</p>
+        <h1>Submit the request with a simple, explainable handoff.</h1>
         <p>
-          The first version should be straightforward enough to wire into Razorpay or a fallback gateway
-          without reshaping the user journey.
+          The launch flow keeps the handoff clear: contact details, doctor-review expectation,
+          and payment collection only after the payment gateway is ready.
         </p>
       </div>
 

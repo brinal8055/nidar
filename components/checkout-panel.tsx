@@ -37,7 +37,7 @@ export function CheckoutPanel() {
   });
 
   useEffect(() => {
-    trackEvent("checkout_start", { source: "checkout_page" });
+    trackEvent("consult_request_start", { source: "consult_request_page" });
   }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -62,7 +62,7 @@ export function CheckoutPanel() {
         },
         {
           label: "Doctor review pending",
-          detail: "Expected turnaround within 24 hours for the MVP flow.",
+          detail: "Expected turnaround within 24 hours for this launch flow.",
           state: "current",
         },
         {
@@ -79,8 +79,8 @@ export function CheckoutPanel() {
     };
 
     window.localStorage.setItem(storageKeys.order, JSON.stringify(order));
-    trackEvent("payment_success", { consultFee: siteConfig.consultFee, source: formState.source });
-    trackEvent("account_signup", { method: "checkout_demo" });
+    trackEvent("consult_request_submitted", { consultFee: siteConfig.consultFee, source: formState.source });
+    trackEvent("account_status_created", { method: "consult_request", hasOrder: true });
     router.push("/thank-you");
   }
 
@@ -89,11 +89,11 @@ export function CheckoutPanel() {
       <form className="card card--form" onSubmit={handleSubmit}>
         <div className="stack">
           <div>
-            <p className="eyebrow">Checkout</p>
-            <h2>Reserve the initial doctor-reviewed consult</h2>
+            <p className="eyebrow">Consult request</p>
+            <h2>Submit the initial doctor-review request</h2>
             <p>
-              This mock reserves payment for the initial doctor review. Treatment, labs, fulfilment, or
-              referral depend on the doctor decision.
+              The request captures contact and intake details for doctor review. Treatment, labs,
+              fulfilment, or referral depend on the doctor decision.
             </p>
           </div>
 
@@ -149,15 +149,15 @@ export function CheckoutPanel() {
 
         <div className="checkout-actions">
           <button type="submit" className="button button--primary">
-            Continue to secure payment
+            Submit consult request
           </button>
-          <p className="subtle">UTM capture, gateway callbacks, and server verification can be layered in next.</p>
+          <p className="subtle">Payment collection should only be enabled after gateway callbacks and server verification are connected.</p>
         </div>
       </form>
 
       <aside className="card summary-card">
         <div className="summary-card__top">
-          <p className="eyebrow">Order summary</p>
+          <p className="eyebrow">Request summary</p>
           <h3>Initial consult</h3>
           <strong>Rs {siteConfig.consultFee}</strong>
         </div>
@@ -166,7 +166,7 @@ export function CheckoutPanel() {
           <li>Doctor review required before any prescription decision.</li>
           <li>Not for emergencies.</li>
           <li>Expected turnaround: {siteConfig.turnaround}.</li>
-          <li>Eligibility route: {quiz.eligibilityOutcome || "not submitted yet"}.</li>
+          <li>Eligibility route: {quiz.eligibilityOutcome || "pending submission"}.</li>
           <li>Reported pattern: {quiz.hairLossPattern || "not captured"}.</li>
           <li>Photo uploads captured: {quiz.photoNames.length || 0}.</li>
           <li>Red-flag checks selected: {quiz.redFlags.filter((item) => item !== redFlagNoneValue).length || 0}.</li>

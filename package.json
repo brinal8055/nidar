@@ -2,7 +2,7 @@
   "name": "nidar",
   "version": "1.0.0",
   "private": true,
-  "description": "Web-first frontend MVP for an India D2C telehealth launch.",
+  "description": "Web-first frontend for an India D2C telehealth launch.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

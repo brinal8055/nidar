@@ -221,7 +221,7 @@ function getEligibility(formData: QuizData): Pick<QuizData, "eligibilityOutcome"
   if (formData.sex !== "male") {
     return {
       eligibilityOutcome: "not_supported",
-      eligibilityReason: "This MVP currently supports adult male hair-loss cases only.",
+      eligibilityReason: "This launch currently supports adult male hair-loss cases only.",
     };
   }
 
@@ -587,7 +587,7 @@ export function QuizFlow() {
         errors.sex = "Please select sex.";
       }
       if (formData.sex && formData.sex !== "male") {
-        errors.sex = "This MVP currently supports adult male hair-loss cases only.";
+        errors.sex = "This launch currently supports adult male hair-loss cases only.";
       }
       if (!formData.location) {
         errors.location = "Please enter city and state.";
@@ -673,7 +673,7 @@ export function QuizFlow() {
 
     if (currentStep === steps.length - 1) {
       if (eligibility.eligibilityOutcome === "not_supported") {
-        setFieldError(eligibility.eligibilityReason || "This case is not supported in the current MVP.");
+        setFieldError(eligibility.eligibilityReason || "This case is not supported in the current launch flow.");
         return;
       }
 
@@ -750,7 +750,7 @@ export function QuizFlow() {
             {errorFor("location")}
           </label>
           <div className="eligibility-note field--full">
-            <strong>Current MVP boundary</strong>
+            <strong>Current launch boundary</strong>
             <p>We are starting with adult male pattern hair loss. Female hair loss, minors, patchy loss, and severe scalp disease should use a different clinical pathway.</p>
           </div>
         </div>
@@ -1002,7 +1002,7 @@ export function QuizFlow() {
           Back
         </button>
         <button type="button" className="button button--primary" onClick={goNext}>
-          {currentStep === steps.length - 1 ? "Continue to doctor-review payment" : "Next step"}
+          {currentStep === steps.length - 1 ? "Continue to consult request" : "Next step"}
         </button>
       </div>
     </div>

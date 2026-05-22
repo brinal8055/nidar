@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/site-content";
 export const metadata: Metadata = {
   metadataBase: new URL("https://nidar.health"),
   title: {
-    default: `${siteConfig.shortName} | Hair-loss MVP`,
+    default: `${siteConfig.shortName} | Doctor-reviewed hair-loss care`,
     template: `%s | ${siteConfig.shortName}`,
   },
   description: siteConfig.description,

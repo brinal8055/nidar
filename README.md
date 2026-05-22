@@ -1,6 +1,6 @@
 # Nidar
 
-Web-first frontend MVP for an India D2C telehealth launch, currently focused on an adult male hair-loss care flow.
+Web-first frontend for an India D2C telehealth launch, currently focused on an adult male hair-loss care flow.
 
 ## Scripts
 

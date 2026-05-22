@@ -1,11 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 
-import { trackEvent } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-content";
 import { OrderRecord, storageKeys } from "@/lib/storage";
-import { TrackedAnchor } from "@/components/tracked-link";
+import { TrackedAnchor, TrackedLink } from "@/components/tracked-link";
 
 function readStoredOrder(): OrderRecord | null {
   if (typeof window === "undefined") {
@@ -27,35 +26,36 @@ function readStoredOrder(): OrderRecord | null {
 
 export function AccountDashboard() {
   const [order] = useState<OrderRecord | null>(readStoredOrder);
-  const [signedIn, setSignedIn] = useState(false);
-  const [phone, setPhone] = useState("");
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSignedIn(true);
-    trackEvent("account_signup", { method: "otp_demo", hasOrder: Boolean(order), phone });
-  }
 
   return (
     <div className="account-layout">
-      <div className="card card--form">
-        <p className="eyebrow">OTP login</p>
-        <h2>Access your order status</h2>
-        <p>
-          This UI is ready for an OTP API. For now, submit any phone number to view the stored local
-          order state.
-        </p>
-
-        <form className="stack" onSubmit={handleSubmit}>
-          <label className="field">
-            <span>Phone number</span>
-            <input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+91" required />
-          </label>
-          <button type="submit" className="button button--primary">
-            Request code
-          </button>
-        </form>
-      </div>
+      {order ? (
+        <div className="card card--highlight">
+          <p className="eyebrow">Saved request</p>
+          <h2>{order.fullName}</h2>
+          <p>
+            Your consult request is saved on this device for status visibility. Support can help if
+            you need changes, refunds, or privacy assistance.
+          </p>
+        </div>
+      ) : (
+        <div className="card card--form">
+          <p className="eyebrow">No active request found</p>
+          <h2>Start with the eligibility quiz.</h2>
+          <p>
+            Once a consult request is submitted from this device, the account area will show the
+            review status and next steps.
+          </p>
+          <TrackedLink
+            href="/quiz"
+            eventName="cta_click"
+            eventPayload={{ location: "account_start_quiz" }}
+            className="button button--primary"
+          >
+            Start assessment
+          </TrackedLink>
+        </div>
+      )}
 
       <div className="card">
         <p className="eyebrow">Support and privacy</p>
@@ -81,14 +81,8 @@ export function AccountDashboard() {
         </div>
       </div>
 
-      {signedIn && order ? (
+      {order ? (
         <div className="account-stack">
-          <div className="card card--highlight">
-            <p className="eyebrow">Welcome back</p>
-            <h3>{order.fullName}</h3>
-            <p>Your consult request is active. We will keep status changes and follow-up reminders here.</p>
-          </div>
-
           <div className="card">
             <p className="eyebrow">Consultation status</p>
             <div className="timeline">
@@ -118,12 +112,6 @@ export function AccountDashboard() {
               side-effect checks, progress-photo prompts, and refill timing.
             </p>
           </div>
-        </div>
-      ) : signedIn ? (
-        <div className="card">
-          <p className="eyebrow">No active order found</p>
-          <h3>Complete the eligibility quiz to create a consult request.</h3>
-          <p>The account surface is wired to show live status once checkout has been completed.</p>
         </div>
       ) : null}
     </div>

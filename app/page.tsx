@@ -16,7 +16,7 @@ export default function HomePage() {
       <section className="home-hero">
         <div className="container home-hero__container">
           <div className="home-hero__intro">
-            <p className="eyebrow">Adults 18+ · Hair-loss launch preview</p>
+            <p className="eyebrow">Adults 18+ · Hair-loss launch</p>
             <h1>Doctor-reviewed hair-loss care from home.</h1>
             <p className="home-hero__lead">
               A focused online flow for adult male pattern hair loss: eligibility screening, standard
@@ -175,7 +175,7 @@ export default function HomePage() {
 
           <div className="ecosystem-phone">
             <div className="ecosystem-phone__frame">
-              <div className="ecosystem-phone__screen" aria-label="Nidar account preview">
+              <div className="ecosystem-phone__screen" aria-label="Nidar account status">
                 <div className="ecosystem-phone__top">
                   <span>Nidar</span>
                   <strong>Review pending</strong>

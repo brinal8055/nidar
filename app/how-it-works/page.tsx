@@ -8,7 +8,7 @@ export default function HowItWorksPage() {
         <p className="eyebrow">How it works</p>
         <h1>From ad click to follow-up, the launch flow stays intentionally narrow.</h1>
         <p>
-          The point of the MVP is not to look comprehensive. It is to process one case reliably from
+          The point of this launch flow is not to look comprehensive. It is to process one case reliably from
           consent to doctor review to fulfilment and follow-up.
         </p>
       </div>

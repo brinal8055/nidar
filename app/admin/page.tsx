@@ -1,21 +1,21 @@
-import { Suspense } from "react";
-
-import { AdminDashboard } from "@/components/admin/admin-dashboard";
+import Link from "next/link";
 
 export default function AdminPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="admin-page">
-          <section className="card">
-            <p className="eyebrow">Queue overview</p>
-            <h2>Loading admin dashboard</h2>
-            <p className="subtle">Preparing mock case filters.</p>
-          </section>
+    <section className="section">
+      <div className="container">
+        <div className="card card--hero">
+          <p className="eyebrow">Restricted workspace</p>
+          <h1>Admin access is disabled for the public launch build.</h1>
+          <p>
+            Clinical review, audit logs, role-based access, and patient records should only be exposed
+            after secure authentication and backend persistence are connected.
+          </p>
+          <Link href="/" className="button button--primary">
+            Return home
+          </Link>
         </div>
-      }
-    >
-      <AdminDashboard />
-    </Suspense>
+      </div>
+    </section>
   );
 }

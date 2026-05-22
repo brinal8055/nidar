@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "Nidar",
   title: "Doctor-reviewed treatment plans for adult male hair loss, from home.",
   description:
-    "A web-first telehealth MVP focused on adult male pattern hair-loss screening, photo review, doctor consult, and follow-up.",
+    "A web-first telehealth launch focused on adult male pattern hair-loss screening, photo review, doctor consult, and follow-up.",
   consultFee: 499,
   supportEmail: "support@nidar.health",
   privacyEmail: "privacy@nidar.health",
@@ -26,7 +26,7 @@ export const trustPoints = [
 ];
 
 export const homeStats = [
-  { value: "18+", label: "Adults only for MVP launch" },
+  { value: "18+", label: "Adults only for launch" },
   { value: "24h", label: "Target doctor review turnaround" },
   { value: "1", label: "Single launch wedge to keep care reliable" },
 ];
@@ -114,7 +114,7 @@ export const homepageTabs = [
   {
     id: "male-pattern",
     label: "Male Pattern",
-    status: "MVP focus",
+    status: "Launch focus",
     icon: "dermatology",
   },
   {
@@ -140,7 +140,7 @@ export const homepageTabs = [
 export const homepageShowcases = [
   {
     id: "male-pattern",
-    verticalLabel: "Adult male pattern hair-loss MVP",
+    verticalLabel: "Adult male pattern hair-loss launch",
     title: "Male hair loss",
     emphasis: "reviewed from home",
     body:
@@ -154,7 +154,7 @@ export const homepageShowcases = [
     ctaHref: "/quiz",
     tone: "lavender",
     visualIcon: "male",
-    visualTitle: "MVP screen",
+    visualTitle: "Screening route",
     visualBody: "Adult male, gradual hairline or crown thinning, no severe scalp symptoms.",
     supportIcon: "rule",
     supportTitle: "Route",
@@ -168,7 +168,7 @@ export const homepageShowcases = [
     body:
       "The app asks for front hairline, left temple, right temple, crown, and a close-up if there is dandruff, redness, patches, or irritation.",
     bullets: [
-      "Photo review is required before checkout",
+      "Photo review is required before the consult request",
       "Missing or poor photos can be flagged before doctor review",
       "Patchy or inflamed cases are routed away from simple treatment",
     ],
@@ -194,8 +194,8 @@ export const homepageShowcases = [
       "Finasteride counselling is handled before approval",
       "Doctor may prescribe, request labs, or refer offline",
     ],
-    ctaLabel: "View admin workflow",
-    ctaHref: "/admin",
+    ctaLabel: "See care workflow",
+    ctaHref: "/how-it-works",
     tone: "tan",
     visualIcon: "clinical_notes",
     visualTitle: "Doctor workspace",
@@ -216,7 +216,7 @@ export const homepageShowcases = [
       "30-day side-effect and counselling check",
       "90-day photo progress review and refill planning",
     ],
-    ctaLabel: "Preview account flow",
+    ctaLabel: "View account flow",
     ctaHref: "/account",
     tone: "blue",
     visualIcon: "timeline",
@@ -237,7 +237,7 @@ export const ecosystemFeatures = [
   {
     icon: "science",
     title: "Structured clinical intake",
-    body: "Pattern, timeline, triggers, scalp symptoms, medicines, and contraindication flags are captured before payment.",
+    body: "Pattern, timeline, triggers, scalp symptoms, medicines, and contraindication flags are captured before doctor review.",
   },
   {
     icon: "local_pharmacy",
@@ -340,7 +340,7 @@ export const faqs = [
   {
     question: "Who can use the launch version?",
     answer:
-      "The MVP is designed for adult men in India with gradual hairline or crown thinning that may fit a male-pattern hair-loss review.",
+      "The launch flow is designed for adult men in India with gradual hairline or crown thinning that may fit a male-pattern hair-loss review.",
   },
   {
     question: "Will I definitely receive medication?",
@@ -353,7 +353,7 @@ export const faqs = [
       "The intake asks about age, sex, location, pattern, duration, family history, recent illness or stress, scalp symptoms, medicines, allergies, counselling flags, and standard photos.",
   },
   {
-    question: "What cases are not handled online in this MVP?",
+    question: "What cases are not handled online in this launch flow?",
     answer:
       "Children, female hair loss, sudden patchy bald spots, painful or infected scalp symptoms, scarring, pus, severe systemic symptoms, PRP, transplant care, and unclear cases should be routed to in-person or specialist review.",
   },
@@ -365,18 +365,11 @@ export const faqs = [
 ];
 
 export const howItWorksHighlights = [
-  "One public funnel: landing page to eligibility quiz to paid consult checkout.",
+  "One public funnel: landing page to eligibility quiz to consult request.",
   "One care workflow: intake, doctor review, prescription decision, and pharmacy handoff.",
   "One refill loop: 14-day, 30-day, and 90-day check-ins instead of a cluttered multi-condition catalog.",
   "One message: doctor-reviewed treatment plans for adult male hair loss, from home.",
 ];
-
-export const doctorProfilePlaceholder = {
-  name: "Doctor profile pending final credential review",
-  qualification: "Qualification placeholder",
-  registration: "Registration number placeholder",
-  note: "Replace with a real doctor profile before launch. Do not use fake credentials or stock doctor claims.",
-};
 
 type LegalSection = {
   heading: string;
@@ -393,7 +386,7 @@ export const legalPages: Record<string, LegalPage> = {
   privacy: {
     title: "Privacy Policy",
     intro:
-      "This preview policy explains the intended data practices for the MVP and should be finalized with legal counsel before launch.",
+      "This policy explains how Nidar Health handles information for the launch flow.",
     sections: [
       {
         heading: "What we collect",
@@ -413,7 +406,7 @@ export const legalPages: Record<string, LegalPage> = {
         heading: "Your controls",
         body: [
           "Users should be able to request access, correction, withdrawal of consent where applicable, grievance support, and privacy help through the published support channels.",
-          "Production launch should include deletion and retention policies, breach handling, and vendor review.",
+          "Users can contact the published privacy channel for access, correction, consent, and deletion requests where applicable.",
         ],
       },
     ],
@@ -421,12 +414,12 @@ export const legalPages: Record<string, LegalPage> = {
   terms: {
     title: "Terms of Service",
     intro:
-      "These draft terms describe the expected operating model for the launch experience and should be approved before public use.",
+      "These terms describe the operating model for the launch experience.",
     sections: [
       {
         heading: "Scope of service",
         body: [
-          "The MVP provides a digital intake, doctor review workflow, status communication, and pharmacy coordination where appropriate.",
+          "The service provides a digital intake, doctor review workflow, status communication, and pharmacy coordination where appropriate.",
           "The platform is not an emergency service and does not guarantee that treatment will be prescribed or shipped.",
         ],
       },
@@ -440,7 +433,7 @@ export const legalPages: Record<string, LegalPage> = {
       {
         heading: "Operational limits",
         body: [
-          "The MVP content is informational and service-oriented. It should not make unsupported clinical claims or promise outcomes.",
+          "The service content is informational and service-oriented. It should not make unsupported clinical claims or promise outcomes.",
           "Service availability, pricing, and geography may change during pilot operation.",
         ],
       },
@@ -477,7 +470,7 @@ export const legalPages: Record<string, LegalPage> = {
   refund: {
     title: "Refund Policy",
     intro:
-      "Refund logic should be tightened alongside payment setup, support scripts, and pharmacy operations before going live.",
+      "Refund handling depends on doctor review status, payment status, and pharmacy fulfilment stage.",
     sections: [
       {
         heading: "Consultation fees",

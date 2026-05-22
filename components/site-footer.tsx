@@ -32,7 +32,7 @@ export function SiteFooter() {
         </nav>
 
         <div className="site-footer__meta">
-          © 2026 {siteConfig.shortName}. Mock preview only.
+          © 2026 {siteConfig.shortName}. Doctor-reviewed care from home.
         </div>
       </div>
     </footer>

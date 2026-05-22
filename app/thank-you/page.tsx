@@ -8,7 +8,7 @@ import { TrackedLink } from "@/components/tracked-link";
 
 export default function ThankYouPage() {
   useEffect(() => {
-    trackEvent("thank_you_view", { source: "checkout_complete" });
+    trackEvent("thank_you_view", { source: "consult_request_complete" });
   }, []);
 
   return (
@@ -18,11 +18,11 @@ export default function ThankYouPage() {
           <p className="eyebrow">Thank you</p>
           <h1>Your consult request has been queued.</h1>
           <p>
-            A doctor review is required before any prescription decision. The MVP target turnaround is{" "}
+            A doctor review is required before any prescription decision. The target turnaround is{" "}
             {siteConfig.turnaround}.
           </p>
           <ul className="summary-list">
-            <li>We captured your intake, consent, and checkout details.</li>
+            <li>We captured your intake, consent, and contact details.</li>
             <li>Support messages and order status now live in the account area.</li>
             <li>This service is not for emergencies.</li>
           </ul>

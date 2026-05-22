@@ -3,10 +3,10 @@ export type AnalyticsEventName =
   | "cta_click"
   | "quiz_start"
   | "quiz_complete"
-  | "checkout_start"
-  | "payment_success"
+  | "consult_request_start"
+  | "consult_request_submitted"
   | "thank_you_view"
-  | "account_signup"
+  | "account_status_created"
   | "support_contact";
 
 declare global {

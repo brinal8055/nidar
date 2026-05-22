@@ -159,6 +159,22 @@ const photoAngles = [
 ] as const;
 
 type SafetyMultiKey = "priorTreatments" | "currentMedicines" | "allergies" | "medicalConditions";
+type ValidationKey =
+  | "age"
+  | "sex"
+  | "location"
+  | "duration"
+  | "hairLossPattern"
+  | "familyHistory"
+  | "recentTriggers"
+  | "scalpSymptoms"
+  | "redFlags"
+  | SafetyMultiKey
+  | "sexualMentalHealthHistory"
+  | "pregnancyStatus"
+  | "photoNames"
+  | "adultConfirmed"
+  | "consentAccepted";
 
 const safetyOtherFields: Record<SafetyMultiKey, keyof QuizData> = {
   priorTreatments: "priorTreatmentsOther",
@@ -340,6 +356,7 @@ export function QuizFlow() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<QuizData>(readStoredQuiz);
   const [fieldError, setFieldError] = useState("");
+  const [validationErrors, setValidationErrors] = useState<Partial<Record<ValidationKey, string>>>({});
 
   useEffect(() => {
     trackEvent("quiz_start", { source: "quiz_page" });
@@ -357,9 +374,32 @@ export function QuizFlow() {
   const requiredPhotoCount = useMemo(() => getRequiredPhotoCount(formData), [formData]);
   const eligibility = useMemo(() => getEligibility(formData), [formData]);
 
+  function clearValidationError(key?: keyof QuizData | ValidationKey) {
+    if (!key) {
+      setValidationErrors({});
+      setFieldError("");
+      return;
+    }
+
+    setValidationErrors((current) => {
+      if (!(key in current)) {
+        return current;
+      }
+
+      const next = { ...current };
+      delete next[key as ValidationKey];
+      return next;
+    });
+    setFieldError("");
+  }
+
+  function errorFor(key: ValidationKey) {
+    return validationErrors[key] ? <p className="field-error">{validationErrors[key]}</p> : null;
+  }
+
   function updateField<K extends keyof QuizData>(key: K, value: QuizData[K]) {
     setFormData((current) => ({ ...current, [key]: value }));
-    setFieldError("");
+    clearValidationError(key);
   }
 
   function toggleListValue(key: "recentTriggers" | "scalpSymptoms" | "redFlags", value: string) {
@@ -379,7 +419,7 @@ export function QuizFlow() {
 
       return { ...current, [key]: active };
     });
-    setFieldError("");
+    clearValidationError(key);
   }
 
   function toggleSafetyValue(key: SafetyMultiKey, value: string) {
@@ -393,11 +433,12 @@ export function QuizFlow() {
 
       return { ...current, [key]: active };
     });
-    setFieldError("");
+    clearValidationError(key);
   }
 
   function updateOtherField(key: SafetyMultiKey, value: string) {
     updateField(safetyOtherFields[key], value);
+    clearValidationError(key);
   }
 
   function needsOtherDetail(key: SafetyMultiKey) {
@@ -408,7 +449,7 @@ export function QuizFlow() {
     const otherField = safetyOtherFields[key];
 
     return (
-      <fieldset className="check-group check-group--cards field--full">
+      <fieldset className={`check-group check-group--cards field--full${validationErrors[key] ? " field--invalid" : ""}`}>
         <legend>{label}</legend>
         <p className="check-group__hint">{helper}</p>
         <div className="check-group__grid">
@@ -434,6 +475,7 @@ export function QuizFlow() {
             />
           </label>
         ) : null}
+        {errorFor(key)}
       </fieldset>
     );
   }
@@ -444,56 +486,95 @@ export function QuizFlow() {
   }
 
   function validateStep(stepIndex: number) {
+    const errors: Partial<Record<ValidationKey, string>> = {};
+
     if (stepIndex === 0) {
       const age = Number.parseInt(formData.age, 10);
-      if (!formData.age || !formData.sex || !formData.location) {
-        setFieldError("Please complete age, sex, and location before continuing.");
-        return false;
+      if (!formData.age) {
+        errors.age = "Please enter your age.";
       }
-
-      if (!Number.isFinite(age) || age < 18 || formData.sex !== "male") {
-        setFieldError("This launch is currently for adult men with suspected pattern hair loss only.");
-        return false;
+      if (formData.age && (!Number.isFinite(age) || age < 18)) {
+        errors.age = "This launch is currently for adults 18+.";
+      }
+      if (!formData.sex) {
+        errors.sex = "Please select sex.";
+      }
+      if (formData.sex && formData.sex !== "male") {
+        errors.sex = "This MVP currently supports adult male hair-loss cases only.";
+      }
+      if (!formData.location) {
+        errors.location = "Please enter city and state.";
       }
     }
 
-    if (stepIndex === 1 && (!formData.duration || !formData.hairLossPattern || !formData.familyHistory)) {
-      setFieldError("Please complete duration, hair-loss pattern, and family history.");
+    if (stepIndex === 1) {
+      if (!formData.duration) {
+        errors.duration = "Please select how long this has been happening.";
+      }
+      if (!formData.hairLossPattern) {
+        errors.hairLossPattern = "Please select the closest hair-loss pattern.";
+      }
+      if (!formData.familyHistory) {
+        errors.familyHistory = "Please select yes, no, or not sure.";
+      }
+    }
+
+    if (stepIndex === 2) {
+      if (!formData.recentTriggers.length) {
+        errors.recentTriggers = "Select one or more triggers, or choose no major recent trigger.";
+      }
+      if (!formData.scalpSymptoms.length) {
+        errors.scalpSymptoms = "Select one or more symptoms, or choose no scalp symptoms.";
+      }
+      if (!formData.redFlags.length) {
+        errors.redFlags = "Select any red flags, or choose none of these red flags.";
+      }
+    }
+
+    if (stepIndex === 3) {
+      const safetyLabels: Record<SafetyMultiKey, string> = {
+        currentMedicines: "current medicines",
+        priorTreatments: "prior treatments",
+        allergies: "allergies",
+        medicalConditions: "medical conditions",
+      };
+
+      (Object.keys(safetyLabels) as SafetyMultiKey[]).forEach((key) => {
+        if (!formData[key].length) {
+          errors[key] = `Select ${safetyLabels[key]}, or choose none.`;
+        } else if (needsOtherDetail(key)) {
+          errors[key] = "You selected Other. Please add details, or unselect Other.";
+        }
+      });
+
+      if (!formData.sexualMentalHealthHistory) {
+        errors.sexualMentalHealthHistory = "Please select No, Yes, or Prefer to discuss with doctor.";
+      }
+      if (!formData.pregnancyStatus) {
+        errors.pregnancyStatus = "Please select Not applicable if this does not apply.";
+      }
+    }
+
+    if (stepIndex === 4) {
+      if (formData.photoNames.length < requiredPhotoCount) {
+        errors.photoNames = `Please add at least ${requiredPhotoCount} photos for this intake.`;
+      }
+      if (!formData.adultConfirmed) {
+        errors.adultConfirmed = "Please confirm you are 18 years or older.";
+      }
+      if (!formData.consentAccepted) {
+        errors.consentAccepted = "Please accept the doctor-review consent notice.";
+      }
+    }
+
+    if (Object.keys(errors).length) {
+      setValidationErrors(errors);
+      setFieldError("");
       return false;
     }
 
-    if (stepIndex === 2 && (!formData.recentTriggers.length || !formData.scalpSymptoms.length || !formData.redFlags.length)) {
-      setFieldError("Please select recent triggers, scalp symptoms, and red flags, even if none apply.");
-      return false;
-    }
-
-    if (
-      stepIndex === 3 &&
-      (!formData.currentMedicines.length ||
-        !formData.priorTreatments.length ||
-        !formData.allergies.length ||
-        !formData.medicalConditions.length ||
-        needsOtherDetail("currentMedicines") ||
-        needsOtherDetail("priorTreatments") ||
-        needsOtherDetail("allergies") ||
-        needsOtherDetail("medicalConditions") ||
-        !formData.sexualMentalHealthHistory ||
-        !formData.pregnancyStatus)
-    ) {
-      setFieldError("Please complete medicines, prior treatments, allergies, conditions, counselling flags, and pregnancy status.");
-      return false;
-    }
-
-    if (
-      stepIndex === 4 &&
-      (formData.photoNames.length < requiredPhotoCount || !formData.consentAccepted || !formData.adultConfirmed)
-    ) {
-      setFieldError(
-        `Please add at least ${requiredPhotoCount} photos, confirm you are 18+, and accept the consent notice.`,
-      );
-      return false;
-    }
-
+    setValidationErrors({});
+    setFieldError("");
     return true;
   }
 
@@ -527,7 +608,7 @@ export function QuizFlow() {
   }
 
   function goBack() {
-    setFieldError("");
+    clearValidationError();
     setCurrentStep((step) => Math.max(step - 1, 0));
   }
 
@@ -548,7 +629,7 @@ export function QuizFlow() {
 
       {currentStep === 0 ? (
         <div className="form-grid">
-          <label className="field">
+          <label className={`field${validationErrors.age ? " field--invalid" : ""}`}>
             <span>Age</span>
             <input
               value={formData.age}
@@ -556,8 +637,9 @@ export function QuizFlow() {
               inputMode="numeric"
               placeholder="e.g. 29"
             />
+            {errorFor("age")}
           </label>
-          <label className="field">
+          <label className={`field${validationErrors.sex ? " field--invalid" : ""}`}>
             <span>Sex</span>
             <select value={formData.sex} onChange={(event) => updateField("sex", event.target.value)}>
               <option value="">Select</option>
@@ -565,14 +647,16 @@ export function QuizFlow() {
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
+            {errorFor("sex")}
           </label>
-          <label className="field field--full">
+          <label className={`field field--full${validationErrors.location ? " field--invalid" : ""}`}>
             <span>Location</span>
             <input
               value={formData.location}
               onChange={(event) => updateField("location", event.target.value)}
               placeholder="City, state"
             />
+            {errorFor("location")}
           </label>
           <div className="eligibility-note field--full">
             <strong>Current MVP boundary</strong>
@@ -583,7 +667,7 @@ export function QuizFlow() {
 
       {currentStep === 1 ? (
         <div className="form-grid">
-          <label className="field">
+          <label className={`field${validationErrors.duration ? " field--invalid" : ""}`}>
             <span>How long has hair loss been happening?</span>
             <select
               value={formData.duration}
@@ -595,8 +679,9 @@ export function QuizFlow() {
               <option value="1-3-years">1 to 3 years</option>
               <option value="3-plus-years">3+ years</option>
             </select>
+            {errorFor("duration")}
           </label>
-          <label className="field">
+          <label className={`field${validationErrors.hairLossPattern ? " field--invalid" : ""}`}>
             <span>Hair-loss pattern</span>
             <select
               value={formData.hairLossPattern}
@@ -609,8 +694,9 @@ export function QuizFlow() {
                 </option>
               ))}
             </select>
+            {errorFor("hairLossPattern")}
           </label>
-          <label className="field field--full">
+          <label className={`field field--full${validationErrors.familyHistory ? " field--invalid" : ""}`}>
             <span>Family history of pattern hair loss</span>
             <select
               value={formData.familyHistory}
@@ -621,13 +707,14 @@ export function QuizFlow() {
               <option value="no">No</option>
               <option value="unsure">Not sure</option>
             </select>
+            {errorFor("familyHistory")}
           </label>
         </div>
       ) : null}
 
       {currentStep === 2 ? (
         <div className="form-grid">
-          <fieldset className="check-group field--full">
+          <fieldset className={`check-group field--full${validationErrors.recentTriggers ? " field--invalid" : ""}`}>
             <legend>Recent triggers</legend>
             {recentTriggerOptions.map((option) => (
               <label key={option} className="check-row">
@@ -639,8 +726,9 @@ export function QuizFlow() {
                 <span>{option}</span>
               </label>
             ))}
+            {errorFor("recentTriggers")}
           </fieldset>
-          <fieldset className="check-group field--full">
+          <fieldset className={`check-group field--full${validationErrors.scalpSymptoms ? " field--invalid" : ""}`}>
             <legend>Scalp symptoms</legend>
             {scalpSymptomOptions.map((option) => (
               <label key={option} className="check-row">
@@ -652,8 +740,9 @@ export function QuizFlow() {
                 <span>{option}</span>
               </label>
             ))}
+            {errorFor("scalpSymptoms")}
           </fieldset>
-          <fieldset className="check-group field--full">
+          <fieldset className={`check-group field--full${validationErrors.redFlags ? " field--invalid" : ""}`}>
             <legend>Referral red flags</legend>
             {redFlagOptions.map((option) => (
               <label key={option} className="check-row">
@@ -665,6 +754,7 @@ export function QuizFlow() {
                 <span>{option}</span>
               </label>
             ))}
+            {errorFor("redFlags")}
           </fieldset>
         </div>
       ) : null}
@@ -695,7 +785,7 @@ export function QuizFlow() {
             "Select relevant diseases or health conditions. Choose none if nothing applies.",
             medicalConditionOptions,
           )}
-          <label className="field">
+          <label className={`field${validationErrors.sexualMentalHealthHistory ? " field--invalid" : ""}`}>
             <span>Sexual or mental health history relevant to counselling</span>
             <select
               value={formData.sexualMentalHealthHistory}
@@ -706,8 +796,9 @@ export function QuizFlow() {
               <option value="yes">Yes, I want the doctor to review this carefully</option>
               <option value="prefer-doctor">Prefer to discuss with doctor</option>
             </select>
+            {errorFor("sexualMentalHealthHistory")}
           </label>
-          <label className="field">
+          <label className={`field${validationErrors.pregnancyStatus ? " field--invalid" : ""}`}>
             <span>Pregnancy or pregnancy planning</span>
             <select
               value={formData.pregnancyStatus}
@@ -719,6 +810,7 @@ export function QuizFlow() {
               <option value="planning">Planning pregnancy</option>
               <option value="partner-pregnant">Partner is pregnant or planning</option>
             </select>
+            {errorFor("pregnancyStatus")}
           </label>
         </div>
       ) : null}
@@ -736,9 +828,10 @@ export function QuizFlow() {
               ))}
             </ul>
           </div>
-          <label className="field field--full">
+          <label className={`field field--full${validationErrors.photoNames ? " field--invalid" : ""}`}>
             <span>Recent scalp or hair photos</span>
             <input type="file" accept="image/*" multiple onChange={(event) => handleFileChange(event.target.files)} />
+            {errorFor("photoNames")}
           </label>
           {formData.photoNames.length ? (
             <div className="upload-list field--full">
@@ -762,6 +855,7 @@ export function QuizFlow() {
             />
             <span>I confirm that I am 18 years or older.</span>
           </label>
+          {errorFor("adultConfirmed")}
           <label className="check-row field--full">
             <input
               type="checkbox"
@@ -773,6 +867,7 @@ export function QuizFlow() {
               must review my case before any treatment decision.
             </span>
           </label>
+          {errorFor("consentAccepted")}
         </div>
       ) : null}
 

@@ -1536,6 +1536,14 @@ ul {
   padding: 0.85rem 1rem;
 }
 
+.field--invalid input,
+.field--invalid select,
+.field--invalid textarea,
+.field--invalid.check-group {
+  border-color: rgba(138, 47, 33, 0.72);
+  box-shadow: 0 0 0 3px rgba(138, 47, 33, 0.08);
+}
+
 .check-group {
   margin: 0;
   padding: 1rem;
@@ -1734,6 +1742,13 @@ ul {
 .form-error {
   color: #8a2f21;
   font-weight: 700;
+}
+
+.field-error {
+  color: #8a2f21;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .summary-card {

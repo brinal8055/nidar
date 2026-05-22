@@ -454,7 +454,7 @@ export function QuizFlow() {
       const nextValues = currentValues.includes(value)
         ? currentValues.filter((item) => item !== value)
         : [...currentValues, value];
-      const active = isExclusiveNone ? [value] : nextValues.filter((item) => item !== noneValue);
+      const active = isExclusiveNone && !currentValues.includes(value) ? [value] : nextValues.filter((item) => item !== noneValue);
 
       return { ...current, [key]: active };
     });
@@ -468,7 +468,7 @@ export function QuizFlow() {
       const nextValues = currentValues.includes(value)
         ? currentValues.filter((item) => item !== value)
         : [...currentValues, value];
-      const active = value === noneValue ? [value] : nextValues.filter((item) => item !== noneValue);
+      const active = value === noneValue && !currentValues.includes(value) ? [value] : nextValues.filter((item) => item !== noneValue);
 
       return { ...current, [key]: active };
     });

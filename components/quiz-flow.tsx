@@ -413,6 +413,26 @@ export function QuizFlow() {
   const requiredPhotoCount = useMemo(() => getRequiredPhotoCount(formData), [formData]);
   const eligibility = useMemo(() => getEligibility(formData), [formData]);
 
+  function scrollToFirstInvalidField(errors: Partial<Record<ValidationKey, string>>) {
+    const firstErrorKey = Object.keys(errors)[0];
+
+    if (!firstErrorKey) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      const target = document.querySelector<HTMLElement>(`[data-validation-key="${firstErrorKey}"]`);
+
+      if (!target) {
+        return;
+      }
+
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      const focusTarget = target.querySelector<HTMLElement>("input, select, textarea, button");
+      focusTarget?.focus({ preventScroll: true });
+    });
+  }
+
   function clearValidationError(key?: keyof QuizData | ValidationKey) {
     if (!key) {
       setValidationErrors({});
@@ -488,7 +508,10 @@ export function QuizFlow() {
     const otherField = safetyOtherFields[key];
 
     return (
-      <fieldset className={`check-group check-group--cards field--full${validationErrors[key] ? " field--invalid" : ""}`}>
+      <fieldset
+        className={`check-group check-group--cards field--full${validationErrors[key] ? " field--invalid" : ""}`}
+        data-validation-key={key}
+      >
         <legend>{label}</legend>
         <p className="check-group__hint">{helper}</p>
         <div className="check-group__grid">
@@ -609,6 +632,7 @@ export function QuizFlow() {
     if (Object.keys(errors).length) {
       setValidationErrors(errors);
       setFieldError("");
+      scrollToFirstInvalidField(errors);
       return false;
     }
 
@@ -668,7 +692,7 @@ export function QuizFlow() {
 
       {currentStep === 0 ? (
         <div className="form-grid">
-          <label className={`field${validationErrors.age ? " field--invalid" : ""}`}>
+          <label className={`field${validationErrors.age ? " field--invalid" : ""}`} data-validation-key="age">
             <span>Age</span>
             <input
               value={formData.age}
@@ -678,7 +702,7 @@ export function QuizFlow() {
             />
             {errorFor("age")}
           </label>
-          <label className={`field${validationErrors.sex ? " field--invalid" : ""}`}>
+          <label className={`field${validationErrors.sex ? " field--invalid" : ""}`} data-validation-key="sex">
             <span>Sex</span>
             <select value={formData.sex} onChange={(event) => updateField("sex", event.target.value)}>
               <option value="">Select</option>
@@ -688,7 +712,10 @@ export function QuizFlow() {
             </select>
             {errorFor("sex")}
           </label>
-          <label className={`field field--full${validationErrors.location ? " field--invalid" : ""}`}>
+          <label
+            className={`field field--full${validationErrors.location ? " field--invalid" : ""}`}
+            data-validation-key="location"
+          >
             <span>Location</span>
             <input
               value={formData.location}
@@ -706,7 +733,7 @@ export function QuizFlow() {
 
       {currentStep === 1 ? (
         <div className="form-grid">
-          <label className={`field${validationErrors.duration ? " field--invalid" : ""}`}>
+          <label className={`field${validationErrors.duration ? " field--invalid" : ""}`} data-validation-key="duration">
             <span>How long has hair loss been happening?</span>
             <select
               value={formData.duration}
@@ -720,7 +747,10 @@ export function QuizFlow() {
             </select>
             {errorFor("duration")}
           </label>
-          <label className={`field${validationErrors.hairLossPattern ? " field--invalid" : ""}`}>
+          <label
+            className={`field${validationErrors.hairLossPattern ? " field--invalid" : ""}`}
+            data-validation-key="hairLossPattern"
+          >
             <span>Hair-loss pattern</span>
             <select
               value={formData.hairLossPattern}
@@ -735,7 +765,10 @@ export function QuizFlow() {
             </select>
             {errorFor("hairLossPattern")}
           </label>
-          <label className={`field field--full${validationErrors.familyHistory ? " field--invalid" : ""}`}>
+          <label
+            className={`field field--full${validationErrors.familyHistory ? " field--invalid" : ""}`}
+            data-validation-key="familyHistory"
+          >
             <span>Family history of pattern hair loss</span>
             <select
               value={formData.familyHistory}
@@ -753,7 +786,10 @@ export function QuizFlow() {
 
       {currentStep === 2 ? (
         <div className="form-grid">
-          <fieldset className={`check-group field--full${validationErrors.recentTriggers ? " field--invalid" : ""}`}>
+          <fieldset
+            className={`check-group field--full${validationErrors.recentTriggers ? " field--invalid" : ""}`}
+            data-validation-key="recentTriggers"
+          >
             <legend>Recent triggers</legend>
             {recentTriggerOptions.map((option) => (
               <label key={option} className="check-row">
@@ -767,7 +803,10 @@ export function QuizFlow() {
             ))}
             {errorFor("recentTriggers")}
           </fieldset>
-          <fieldset className={`check-group field--full${validationErrors.scalpSymptoms ? " field--invalid" : ""}`}>
+          <fieldset
+            className={`check-group field--full${validationErrors.scalpSymptoms ? " field--invalid" : ""}`}
+            data-validation-key="scalpSymptoms"
+          >
             <legend>Scalp symptoms</legend>
             {scalpSymptomOptions.map((option) => (
               <label key={option} className="check-row">
@@ -781,7 +820,10 @@ export function QuizFlow() {
             ))}
             {errorFor("scalpSymptoms")}
           </fieldset>
-          <fieldset className={`check-group field--full${validationErrors.redFlags ? " field--invalid" : ""}`}>
+          <fieldset
+            className={`check-group field--full${validationErrors.redFlags ? " field--invalid" : ""}`}
+            data-validation-key="redFlags"
+          >
             <legend>Referral red flags</legend>
             {redFlagOptions.map((option) => (
               <label key={option} className="check-row">
@@ -824,7 +866,10 @@ export function QuizFlow() {
             "Select relevant diseases or health conditions. Choose none if nothing applies.",
             medicalConditionOptions,
           )}
-          <label className={`field${validationErrors.sexualMentalHealthHistory ? " field--invalid" : ""}`}>
+          <label
+            className={`field${validationErrors.sexualMentalHealthHistory ? " field--invalid" : ""}`}
+            data-validation-key="sexualMentalHealthHistory"
+          >
             <span>Sexual or mental health history relevant to counselling</span>
             <select
               value={formData.sexualMentalHealthHistory}
@@ -837,7 +882,10 @@ export function QuizFlow() {
             </select>
             {errorFor("sexualMentalHealthHistory")}
           </label>
-          <label className={`field${validationErrors.pregnancyStatus ? " field--invalid" : ""}`}>
+          <label
+            className={`field${validationErrors.pregnancyStatus ? " field--invalid" : ""}`}
+            data-validation-key="pregnancyStatus"
+          >
             <span>Pregnancy or pregnancy planning</span>
             <select
               value={formData.pregnancyStatus}
@@ -867,7 +915,10 @@ export function QuizFlow() {
               ))}
             </ul>
           </div>
-          <label className={`field field--full${validationErrors.photoNames ? " field--invalid" : ""}`}>
+          <label
+            className={`field field--full${validationErrors.photoNames ? " field--invalid" : ""}`}
+            data-validation-key="photoNames"
+          >
             <span>Recent scalp or hair photos</span>
             <input type="file" accept="image/*" multiple onChange={(event) => handleFileChange(event.target.files)} />
             {errorFor("photoNames")}
@@ -886,7 +937,7 @@ export function QuizFlow() {
             <p>{eligibility.eligibilityReason}</p>
             <p>AI may summarize and flag this intake, but diagnosis and prescribing stay with the doctor.</p>
           </div>
-          <label className="check-row field--full">
+          <label className="check-row field--full" data-validation-key="adultConfirmed">
             <input
               type="checkbox"
               checked={formData.adultConfirmed}
@@ -895,7 +946,7 @@ export function QuizFlow() {
             <span>I confirm that I am 18 years or older.</span>
           </label>
           {errorFor("adultConfirmed")}
-          <label className="check-row field--full">
+          <label className="check-row field--full" data-validation-key="consentAccepted">
             <input
               type="checkbox"
               checked={formData.consentAccepted}

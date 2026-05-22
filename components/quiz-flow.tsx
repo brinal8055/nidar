@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
@@ -392,6 +392,7 @@ function PhotoAngleGuide() {
 
 export function QuizFlow() {
   const router = useRouter();
+  const photoInputRef = useRef<HTMLInputElement | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<QuizData>(readStoredQuiz);
   const [fieldError, setFieldError] = useState("");
@@ -543,8 +544,32 @@ export function QuizFlow() {
   }
 
   function handleFileChange(files: FileList | null) {
-    const photoNames = files ? Array.from(files).map((file) => file.name) : [];
-    updateField("photoNames", photoNames);
+    const selectedNames = files ? Array.from(files).map((file) => file.name) : [];
+
+    if (!selectedNames.length) {
+      return;
+    }
+
+    setFormData((current) => ({
+      ...current,
+      photoNames: Array.from(new Set([...current.photoNames, ...selectedNames])),
+    }));
+    clearValidationError("photoNames");
+
+    if (photoInputRef.current) {
+      photoInputRef.current.value = "";
+    }
+  }
+
+  function removePhotoName(name: string) {
+    setFormData((current) => ({
+      ...current,
+      photoNames: current.photoNames.filter((item) => item !== name),
+    }));
+
+    if (photoInputRef.current) {
+      photoInputRef.current.value = "";
+    }
   }
 
   function validateStep(stepIndex: number) {
@@ -920,14 +945,23 @@ export function QuizFlow() {
             data-validation-key="photoNames"
           >
             <span>Recent scalp or hair photos</span>
-            <input type="file" accept="image/*" multiple onChange={(event) => handleFileChange(event.target.files)} />
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => handleFileChange(event.target.files)}
+            />
             {errorFor("photoNames")}
           </label>
           {formData.photoNames.length ? (
-            <div className="upload-list field--full">
+            <div className="upload-list field--full" aria-label="Selected photo files">
               {formData.photoNames.map((name) => (
-                <span key={name} className="pill">
-                  {name}
+                <span key={name} className="pill pill--removable">
+                  <span>{name}</span>
+                  <button type="button" onClick={() => removePhotoName(name)} aria-label={`Remove ${name}`}>
+                    x
+                  </button>
                 </span>
               ))}
             </div>

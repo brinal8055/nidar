@@ -1797,6 +1797,35 @@ ul {
   color: var(--ink);
 }
 
+.pill--removable {
+  gap: 0.5rem;
+  padding-right: 0.35rem;
+}
+
+.pill--removable > span {
+  overflow-wrap: anywhere;
+}
+
+.pill--removable button {
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: rgba(27, 48, 34, 0.12);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.pill--removable button:hover {
+  background: rgba(138, 47, 33, 0.14);
+  color: #8a2f21;
+}
+
 .form-error {
   color: #8a2f21;
   font-weight: 700;

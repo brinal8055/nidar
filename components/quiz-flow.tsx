@@ -4,28 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
-import { QuizData, storageKeys } from "@/lib/storage";
-
-const emptyQuizData: QuizData = {
-  age: "",
-  sex: "",
-  location: "",
-  duration: "",
-  hairLossPattern: "",
-  familyHistory: "",
-  recentTriggers: [],
-  scalpSymptoms: [],
-  priorTreatments: "",
-  currentMedicines: "",
-  sexualMentalHealthHistory: "",
-  pregnancyStatus: "",
-  allergies: "",
-  medicalConditions: "",
-  photoNames: [],
-  redFlags: [],
-  consentAccepted: false,
-  adultConfirmed: false,
-};
+import {
+  emptyQuizData,
+  normalizeQuizData,
+  QuizData,
+  redFlagNoneValue,
+  safetyNoneValues,
+  storageKeys,
+} from "@/lib/storage";
 
 const steps = [
   {
@@ -77,12 +63,63 @@ const scalpSymptomOptions = [
 ];
 
 const redFlagOptions = [
+  redFlagNoneValue,
   "Sudden patchy hair loss",
   "Scalp pain, pus, bleeding, sores, or active infection",
   "Hair loss after serious illness or unexplained weight loss",
   "Currently receiving cancer treatment",
   "Severe allergic reaction to prior treatment",
   "Child or teen patient",
+];
+
+const priorTreatmentOptions = [
+  safetyNoneValues.priorTreatments,
+  "Topical minoxidil",
+  "Oral finasteride",
+  "Topical finasteride",
+  "Dutasteride",
+  "Anti-dandruff shampoo",
+  "Hair supplements",
+  "PRP",
+  "Hair transplant consult or procedure",
+  "Other",
+];
+
+const currentMedicineOptions = [
+  safetyNoneValues.currentMedicines,
+  "Hair-loss medicine",
+  "Blood pressure medicine",
+  "Thyroid medicine",
+  "Diabetes medicine",
+  "Antidepressant or anxiety medicine",
+  "Acne medicine or isotretinoin",
+  "Steroids or hormone medicine",
+  "Supplements",
+  "Other",
+];
+
+const allergyOptions = [
+  safetyNoneValues.allergies,
+  "Minoxidil",
+  "Finasteride or dutasteride",
+  "Ketoconazole",
+  "Propylene glycol or topical solution irritation",
+  "Sulfa or antibiotic allergy",
+  "Other",
+];
+
+const medicalConditionOptions = [
+  safetyNoneValues.medicalConditions,
+  "Thyroid disorder",
+  "Anemia or low iron",
+  "Diabetes",
+  "High blood pressure",
+  "Heart condition",
+  "Liver or kidney disease",
+  "Depression, anxiety, or mood disorder",
+  "Scalp psoriasis, eczema, or fungal infection",
+  "Recent surgery or major illness",
+  "Other",
 ];
 
 const photoGuide = [
@@ -92,6 +129,43 @@ const photoGuide = [
   "Crown or top view",
   "Close-up of flakes, redness, patches, or irritation if present",
 ];
+
+const photoAngles = [
+  {
+    id: "front",
+    title: "Front hairline",
+    helper: "Face camera directly. Lift hair back so the full front hairline is visible.",
+  },
+  {
+    id: "left",
+    title: "Left temple",
+    helper: "Turn slightly right so your left temple and hairline corner are visible.",
+  },
+  {
+    id: "right",
+    title: "Right temple",
+    helper: "Turn slightly left so your right temple and hairline corner are visible.",
+  },
+  {
+    id: "crown",
+    title: "Crown / top",
+    helper: "Tilt head down or ask someone to capture the top and crown area.",
+  },
+  {
+    id: "close",
+    title: "Scalp close-up",
+    helper: "Only needed if there are flakes, redness, irritation, patches, or sores.",
+  },
+] as const;
+
+type SafetyMultiKey = "priorTreatments" | "currentMedicines" | "allergies" | "medicalConditions";
+
+const safetyOtherFields: Record<SafetyMultiKey, keyof QuizData> = {
+  priorTreatments: "priorTreatmentsOther",
+  currentMedicines: "currentMedicinesOther",
+  allergies: "allergiesOther",
+  medicalConditions: "medicalConditionsOther",
+};
 
 function readStoredQuiz(): QuizData {
   if (typeof window === "undefined") {
@@ -105,8 +179,7 @@ function readStoredQuiz(): QuizData {
   }
 
   try {
-    const parsed = JSON.parse(savedValue) as QuizData;
-    return { ...emptyQuizData, ...parsed };
+    return normalizeQuizData(JSON.parse(savedValue));
   } catch {
     window.localStorage.removeItem(storageKeys.quiz);
     return emptyQuizData;
@@ -120,6 +193,7 @@ function getRequiredPhotoCount(formData: QuizData) {
 
 function getEligibility(formData: QuizData): Pick<QuizData, "eligibilityOutcome" | "eligibilityReason"> {
   const age = Number.parseInt(formData.age, 10);
+  const meaningfulRedFlags = getMeaningfulRedFlags(formData.redFlags);
 
   if (!Number.isFinite(age) || age < 18) {
     return {
@@ -145,7 +219,7 @@ function getEligibility(formData: QuizData): Pick<QuizData, "eligibilityOutcome"
   if (
     formData.hairLossPattern === "patchy" ||
     formData.hairLossPattern === "scalp-disease" ||
-    formData.redFlags.length > 0 ||
+    meaningfulRedFlags.length > 0 ||
     formData.scalpSymptoms.includes("Pain, pus, bleeding, or sores") ||
     formData.scalpSymptoms.includes("Round patches")
   ) {
@@ -174,6 +248,91 @@ function getEligibility(formData: QuizData): Pick<QuizData, "eligibilityOutcome"
     eligibilityOutcome: "eligible",
     eligibilityReason: "The intake looks suitable for the adult male pattern hair-loss review flow.",
   };
+}
+
+function getMeaningfulRedFlags(redFlags: string[]) {
+  return redFlags.filter((item) => item !== redFlagNoneValue);
+}
+
+function PhotoAngleIllustration({ angle }: { angle: (typeof photoAngles)[number]["id"] }) {
+  if (angle === "crown") {
+    return (
+      <svg viewBox="0 0 160 160" role="img" aria-label="Top view head photo angle">
+        <circle className="angle-svg__skin" cx="80" cy="80" r="54" />
+        <path className="angle-svg__hair" d="M31 79c0-34 21-55 49-55s49 21 49 55c-12-12-26-18-49-18S43 67 31 79Z" />
+        <circle className="angle-svg__target" cx="80" cy="78" r="22" />
+        <path className="angle-svg__line" d="M61 78h38M80 59v38" />
+        <text x="80" y="136" textAnchor="middle">
+          TOP
+        </text>
+      </svg>
+    );
+  }
+
+  if (angle === "close") {
+    return (
+      <svg viewBox="0 0 160 160" role="img" aria-label="Scalp close-up photo angle">
+        <rect className="angle-svg__skin" x="34" y="34" width="92" height="92" rx="28" />
+        <path className="angle-svg__hairline" d="M45 75c14-21 55-24 72-4" />
+        <path className="angle-svg__line" d="M53 92c8-8 16-8 24 0M83 96c10-9 20-9 30 0" />
+        <circle className="angle-svg__target" cx="62" cy="66" r="5" />
+        <circle className="angle-svg__target" cx="103" cy="84" r="5" />
+        <text x="80" y="136" textAnchor="middle">
+          CLOSE
+        </text>
+      </svg>
+    );
+  }
+
+  const isLeft = angle === "left";
+  const isRight = angle === "right";
+
+  return (
+    <svg viewBox="0 0 160 160" role="img" aria-label={`${angle} head photo angle`}>
+      <ellipse className="angle-svg__skin" cx="80" cy="78" rx="42" ry="52" />
+      <path
+        className="angle-svg__hair"
+        d={
+          isLeft
+            ? "M43 75c0-34 16-53 45-53 19 0 33 12 39 31-19-5-40-3-64 8-8 4-14 9-20 14Z"
+            : isRight
+              ? "M117 75c0-34-16-53-45-53-19 0-33 12-39 31 19-5 40-3 64 8 8 4 14 9 20 14Z"
+              : "M39 69c2-31 18-48 41-48s39 17 41 48c-16-12-30-16-41-16S55 57 39 69Z"
+        }
+      />
+      <path
+        className="angle-svg__hairline"
+        d={isLeft ? "M52 71c13-11 28-17 47-18" : isRight ? "M108 71c-13-11-28-17-47-18" : "M51 70c18-13 40-13 58 0"}
+      />
+      <circle className="angle-svg__target" cx={isLeft ? 55 : isRight ? 105 : 80} cy={isLeft || isRight ? 72 : 66} r="10" />
+      <path className="angle-svg__line" d={isLeft ? "M37 76h28" : isRight ? "M95 76h28" : "M56 66h48"} />
+      <text x="80" y="136" textAnchor="middle">
+        {isLeft ? "LEFT" : isRight ? "RIGHT" : "FRONT"}
+      </text>
+    </svg>
+  );
+}
+
+function PhotoAngleGuide() {
+  return (
+    <div className="photo-angle-guide field--full">
+      <div className="photo-angle-guide__intro">
+        <strong>Photo angle demo</strong>
+        <p>Use bright light, keep the image sharp, and make sure hair is moved away from the area being captured.</p>
+      </div>
+      <div className="photo-angle-grid">
+        {photoAngles.map((angle) => (
+          <article key={angle.id} className="photo-angle-card">
+            <div className="photo-angle-card__visual">
+              <PhotoAngleIllustration angle={angle.id} />
+            </div>
+            <h3>{angle.title}</h3>
+            <p>{angle.helper}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function QuizFlow() {
@@ -206,8 +365,13 @@ export function QuizFlow() {
   function toggleListValue(key: "recentTriggers" | "scalpSymptoms" | "redFlags", value: string) {
     setFormData((current) => {
       const currentValues = current[key];
-      const noneValue = key === "recentTriggers" ? "No major recent trigger" : "No scalp symptoms";
-      const isExclusiveNone = key !== "redFlags" && value === noneValue;
+      const noneValue =
+        key === "recentTriggers"
+          ? "No major recent trigger"
+          : key === "scalpSymptoms"
+            ? "No scalp symptoms"
+            : redFlagNoneValue;
+      const isExclusiveNone = value === noneValue;
       const nextValues = currentValues.includes(value)
         ? currentValues.filter((item) => item !== value)
         : [...currentValues, value];
@@ -216,6 +380,62 @@ export function QuizFlow() {
       return { ...current, [key]: active };
     });
     setFieldError("");
+  }
+
+  function toggleSafetyValue(key: SafetyMultiKey, value: string) {
+    setFormData((current) => {
+      const currentValues = current[key];
+      const noneValue = safetyNoneValues[key];
+      const nextValues = currentValues.includes(value)
+        ? currentValues.filter((item) => item !== value)
+        : [...currentValues, value];
+      const active = value === noneValue ? [value] : nextValues.filter((item) => item !== noneValue);
+
+      return { ...current, [key]: active };
+    });
+    setFieldError("");
+  }
+
+  function updateOtherField(key: SafetyMultiKey, value: string) {
+    updateField(safetyOtherFields[key], value);
+  }
+
+  function needsOtherDetail(key: SafetyMultiKey) {
+    return formData[key].includes("Other") && !String(formData[safetyOtherFields[key]]).trim();
+  }
+
+  function renderSafetyGroup(key: SafetyMultiKey, label: string, helper: string, options: string[]) {
+    const otherField = safetyOtherFields[key];
+
+    return (
+      <fieldset className="check-group check-group--cards field--full">
+        <legend>{label}</legend>
+        <p className="check-group__hint">{helper}</p>
+        <div className="check-group__grid">
+          {options.map((option) => (
+            <label key={option} className="check-row check-row--card">
+              <input
+                type="checkbox"
+                checked={formData[key].includes(option)}
+                onChange={() => toggleSafetyValue(key, option)}
+              />
+              <span>{option}</span>
+            </label>
+          ))}
+        </div>
+        {formData[key].includes("Other") ? (
+          <label className="field check-group__other">
+            <span>Other details</span>
+            <textarea
+              value={String(formData[otherField])}
+              onChange={(event) => updateOtherField(key, event.target.value)}
+              placeholder="Add a short detail for doctor review"
+              rows={2}
+            />
+          </label>
+        ) : null}
+      </fieldset>
+    );
   }
 
   function handleFileChange(files: FileList | null) {
@@ -242,20 +462,25 @@ export function QuizFlow() {
       return false;
     }
 
-    if (stepIndex === 2 && (!formData.recentTriggers.length || !formData.scalpSymptoms.length)) {
-      setFieldError("Please select recent triggers and scalp symptoms, even if none apply.");
+    if (stepIndex === 2 && (!formData.recentTriggers.length || !formData.scalpSymptoms.length || !formData.redFlags.length)) {
+      setFieldError("Please select recent triggers, scalp symptoms, and red flags, even if none apply.");
       return false;
     }
 
     if (
       stepIndex === 3 &&
-      (!formData.currentMedicines ||
-        !formData.allergies ||
-        !formData.medicalConditions ||
+      (!formData.currentMedicines.length ||
+        !formData.priorTreatments.length ||
+        !formData.allergies.length ||
+        !formData.medicalConditions.length ||
+        needsOtherDetail("currentMedicines") ||
+        needsOtherDetail("priorTreatments") ||
+        needsOtherDetail("allergies") ||
+        needsOtherDetail("medicalConditions") ||
         !formData.sexualMentalHealthHistory ||
         !formData.pregnancyStatus)
     ) {
-      setFieldError("Please complete medicines, allergies, conditions, counselling flags, and pregnancy status.");
+      setFieldError("Please complete medicines, prior treatments, allergies, conditions, counselling flags, and pregnancy status.");
       return false;
     }
 
@@ -290,7 +515,7 @@ export function QuizFlow() {
       };
       window.localStorage.setItem(storageKeys.quiz, JSON.stringify(submission));
       trackEvent("quiz_complete", {
-        redFlagCount: formData.redFlags.length,
+        redFlagCount: getMeaningfulRedFlags(formData.redFlags).length,
         photoCount: formData.photoNames.length,
         eligibilityOutcome: eligibility.eligibilityOutcome,
       });
@@ -446,42 +671,30 @@ export function QuizFlow() {
 
       {currentStep === 3 ? (
         <div className="form-grid">
-          <label className="field field--full">
-            <span>Current medicines</span>
-            <textarea
-              value={formData.currentMedicines}
-              onChange={(event) => updateField("currentMedicines", event.target.value)}
-              placeholder="List everything you take. Write none if not applicable."
-              rows={3}
-            />
-          </label>
-          <label className="field field--full">
-            <span>Prior hair-loss treatments</span>
-            <textarea
-              value={formData.priorTreatments}
-              onChange={(event) => updateField("priorTreatments", event.target.value)}
-              placeholder="Minoxidil, finasteride, shampoos, supplements, PRP, transplant consult, or none."
-              rows={3}
-            />
-          </label>
-          <label className="field field--full">
-            <span>Allergies</span>
-            <textarea
-              value={formData.allergies}
-              onChange={(event) => updateField("allergies", event.target.value)}
-              placeholder="List known drug or ingredient allergies. Write none if not applicable."
-              rows={3}
-            />
-          </label>
-          <label className="field field--full">
-            <span>Medical conditions</span>
-            <textarea
-              value={formData.medicalConditions}
-              onChange={(event) => updateField("medicalConditions", event.target.value)}
-              placeholder="Thyroid, anemia, diabetes, hypertension, scalp disease, recent surgery, or none."
-              rows={3}
-            />
-          </label>
+          {renderSafetyGroup(
+            "currentMedicines",
+            "Current medicines",
+            "Select everything currently used. Choose none if the user takes no regular medicine.",
+            currentMedicineOptions,
+          )}
+          {renderSafetyGroup(
+            "priorTreatments",
+            "Prior hair-loss treatments",
+            "This helps the doctor understand what has already been tried and whether there were issues.",
+            priorTreatmentOptions,
+          )}
+          {renderSafetyGroup(
+            "allergies",
+            "Allergies",
+            "Select known allergies or sensitivities. Choose none if there are no known allergies.",
+            allergyOptions,
+          )}
+          {renderSafetyGroup(
+            "medicalConditions",
+            "Medical conditions",
+            "Select relevant diseases or health conditions. Choose none if nothing applies.",
+            medicalConditionOptions,
+          )}
           <label className="field">
             <span>Sexual or mental health history relevant to counselling</span>
             <select
@@ -512,6 +725,7 @@ export function QuizFlow() {
 
       {currentStep === 4 ? (
         <div className="form-grid">
+          <PhotoAngleGuide />
           <div className="eligibility-note field--full">
             <strong>Photo set needed before doctor review</strong>
             <ul className="summary-list">

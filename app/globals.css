@@ -1543,6 +1543,45 @@ ul {
   border-radius: var(--radius-lg);
 }
 
+.check-group--cards {
+  display: grid;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.check-group__hint {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.check-group__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.check-row--card {
+  min-height: 3rem;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid rgba(27, 48, 34, 0.1);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.check-row--card:has(input:checked) {
+  border-color: rgba(27, 48, 34, 0.38);
+  background: rgba(208, 233, 212, 0.56);
+  color: var(--ink);
+}
+
+.check-row input {
+  margin-top: 0.2rem;
+}
+
+.check-group__other {
+  padding-top: 0.2rem;
+}
+
 .eligibility-note {
   display: grid;
   gap: 0.55rem;
@@ -1580,6 +1619,106 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+}
+
+.photo-angle-guide {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(27, 48, 34, 0.12);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top left, rgba(208, 233, 212, 0.44), transparent 34%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.photo-angle-guide__intro {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.photo-angle-guide__intro strong {
+  font-size: 1.15rem;
+}
+
+.photo-angle-guide__intro p {
+  color: var(--ink-soft);
+}
+
+.photo-angle-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.photo-angle-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(27, 48, 34, 0.1);
+  border-radius: var(--radius-md);
+  background: rgba(255, 253, 248, 0.78);
+}
+
+.photo-angle-card__visual {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  border-radius: calc(var(--radius-md) - 0.25rem);
+  background:
+    radial-gradient(circle at center, rgba(245, 230, 190, 0.44), transparent 48%),
+    linear-gradient(160deg, rgba(224, 242, 247, 0.82), rgba(232, 224, 213, 0.72));
+}
+
+.photo-angle-card svg {
+  width: min(100%, 8.8rem);
+  height: auto;
+}
+
+.photo-angle-card h3 {
+  font-size: 0.95rem;
+}
+
+.photo-angle-card p {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.angle-svg__skin {
+  fill: #d9bda0;
+}
+
+.angle-svg__hair {
+  fill: #1b3022;
+}
+
+.angle-svg__hairline,
+.angle-svg__line {
+  fill: none;
+  stroke: #fff8ef;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5;
+}
+
+.angle-svg__line {
+  stroke: #c7653b;
+  stroke-width: 4;
+}
+
+.angle-svg__target {
+  fill: rgba(199, 101, 59, 0.22);
+  stroke: #c7653b;
+  stroke-width: 3;
+}
+
+.photo-angle-card text {
+  fill: rgba(27, 48, 34, 0.72);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
 .pill {
@@ -2251,6 +2390,11 @@ ul {
   .summary-card__top {
     grid-template-columns: 1fr;
     display: grid;
+  }
+
+  .check-group__grid,
+  .photo-angle-grid {
+    grid-template-columns: 1fr;
   }
 
   .button,

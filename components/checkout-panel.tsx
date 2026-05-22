@@ -5,44 +5,23 @@ import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-content";
-import { OrderRecord, QuizData, storageKeys } from "@/lib/storage";
-
-const emptyQuiz: QuizData = {
-  age: "",
-  sex: "",
-  location: "",
-  duration: "",
-  hairLossPattern: "",
-  familyHistory: "",
-  recentTriggers: [],
-  scalpSymptoms: [],
-  priorTreatments: "",
-  currentMedicines: "",
-  sexualMentalHealthHistory: "",
-  pregnancyStatus: "",
-  allergies: "",
-  medicalConditions: "",
-  photoNames: [],
-  redFlags: [],
-  consentAccepted: false,
-  adultConfirmed: false,
-};
+import { emptyQuizData, normalizeQuizData, OrderRecord, QuizData, redFlagNoneValue, storageKeys } from "@/lib/storage";
 
 function readStoredQuiz(): QuizData {
   if (typeof window === "undefined") {
-    return emptyQuiz;
+    return emptyQuizData;
   }
 
   const savedQuiz = window.localStorage.getItem(storageKeys.quiz);
 
   if (!savedQuiz) {
-    return emptyQuiz;
+    return emptyQuizData;
   }
 
   try {
-    return { ...emptyQuiz, ...(JSON.parse(savedQuiz) as QuizData) };
+    return normalizeQuizData(JSON.parse(savedQuiz));
   } catch {
-    return emptyQuiz;
+    return emptyQuizData;
   }
 }
 
@@ -190,7 +169,7 @@ export function CheckoutPanel() {
           <li>Eligibility route: {quiz.eligibilityOutcome || "not submitted yet"}.</li>
           <li>Reported pattern: {quiz.hairLossPattern || "not captured"}.</li>
           <li>Photo uploads captured: {quiz.photoNames.length || 0}.</li>
-          <li>Red-flag checks selected: {quiz.redFlags.length || 0}.</li>
+          <li>Red-flag checks selected: {quiz.redFlags.filter((item) => item !== redFlagNoneValue).length || 0}.</li>
         </ul>
       </aside>
     </div>

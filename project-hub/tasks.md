@@ -37,6 +37,7 @@ Updated: April 21, 2026
 - Updated admin mock cases with AI pre-screen notes, doctor decision paths, triggers, scalp symptoms, prior treatments, and follow-up logic
 - Removed all borrowed Medvi/Googleusercontent homepage images and replaced them with app-owned visual UI blocks to avoid missing media and alignment gaps
 - Replaced failed external icon-font rendering with local SVG icons and fixed the mobile homepage category alignment
+- Converted quiz safety-history text boxes into selectable None/Other checkbox groups and added a visual photo-angle guide
 - Built the eligibility quiz with local saved progress
 - Built checkout, thank-you, and account/status placeholder pages
 - Built the internal doctor-and-ops admin shell in the same codebase

@@ -52,8 +52,8 @@ export const platformPillars = [
     tone: "blue",
     title: "Understand how your body is moving over time.",
     description:
-      "Health Tracking turns annual or bi-annual tests into biomarker trends, doctor-reviewed guidance, action plans, and retest reminders.",
-    flow: "Health questionnaire -> package -> home sample -> report parsing -> doctor review -> dashboard -> retest reminders",
+      "Health Tracking brings annual checks, report uploads, biomarker trends, doctor-reviewed guidance, care plans, orders, and retest reminders into one dashboard.",
+    flow: "Book tests or upload reports -> see biomarker trends -> get AI-prepared insights -> doctor-reviewed guidance -> orders and reminders",
     href: null,
     ctaLabel: "Beta next",
   },
@@ -78,20 +78,9 @@ export const platformVerticals = [
     icon: "timeline",
     tone: "blue",
     description:
-      "Annual or bi-annual tests, report extraction, doctor-reviewed guidance, biomarker trends, and retest reminders.",
+      "Annual checks, report analysis, biomarker trends, care guidance, orders, and retest reminders in one dashboard.",
     href: null,
     ctaLabel: "Beta next",
-  },
-  {
-    id: "annual-health",
-    label: "Annual Health",
-    status: "Starter package",
-    icon: "fact_check",
-    tone: "gold",
-    description:
-      "CBC, thyroid, liver, kidney, lipid, and sugar checks packaged into one simple yearly baseline.",
-    href: null,
-    ctaLabel: "Coming soon",
   },
   {
     id: "mens-health",
@@ -114,6 +103,39 @@ export const platformVerticals = [
       "A future pathway for hormonal health, skin, hair, wellness, and stage-specific care support.",
     href: null,
     ctaLabel: "Coming soon",
+  },
+];
+
+export const healthTrackingDashboardFeatures = [
+  {
+    title: "Reports",
+    icon: "fact_check",
+    body: "Upload past reports or book a new at-home test package when you need fresh data.",
+  },
+  {
+    title: "Trends",
+    icon: "timeline",
+    body: "Track markers like Vitamin D, B12, ferritin, HbA1c, thyroid, lipids, liver, kidney, and CBC over time.",
+  },
+  {
+    title: "Guidance",
+    icon: "clinical_notes",
+    body: "Get a plain-language report summary, AI-prepared insights, and doctor-reviewed guidance where needed.",
+  },
+  {
+    title: "Care plan",
+    icon: "rule",
+    body: "See suggested next steps, lifestyle actions, supplement guidance, prescription decisions, or referral notes.",
+  },
+  {
+    title: "Orders",
+    icon: "local_pharmacy",
+    body: "Order recommended tests, supplements, or medicines through the care workflow when appropriate.",
+  },
+  {
+    title: "Reminders",
+    icon: "event_repeat",
+    body: "Get retest reminders at 90 days, 6 months, or annually based on the marker and care plan.",
   },
 ];
 
@@ -147,34 +169,21 @@ export const healthTrackingPackages = [
   },
 ];
 
-export const platformOperatingModules = [
-  "User profile",
-  "Questionnaires",
-  "Lab orders",
-  "Report storage",
-  "Biomarker trends",
-  "Doctor review",
-  "Prescriptions",
-  "Pharmacy orders",
-  "Follow-ups",
-  "Notifications",
-];
-
 export const platformSteps = [
   {
-    title: "Choose a care vertical",
+    title: "Book a package or upload reports",
     description:
-      "People land on one Nidar Health platform, then enter Hair Care or Health Tracking depending on the job they need done.",
+      "Start with Basic Annual Health, Vitamin & Fatigue, Diabetes Risk, or bring an existing report into the dashboard.",
   },
   {
-    title: "Complete a focused dashboard",
+    title: "Understand the result",
     description:
-      "Each vertical has its own education, eligibility logic, questionnaire, photo or lab requirements, consent, and payment moment.",
+      "Reports are organized into markers, ranges, status, trends, and plain-language explanations before review.",
   },
   {
-    title: "Move into reviewed care",
+    title: "Act and retest",
     description:
-      "Doctor review, fulfilment visibility, account status, and follow-up stay consistent across verticals while AI stays behind the scenes.",
+      "Doctor guidance, prescriptions, supplements, follow-up actions, orders, and retest reminders sit in the same flow.",
   },
 ];
 

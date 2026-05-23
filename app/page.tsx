@@ -1,8 +1,8 @@
 import { Icon } from "@/components/icon";
 import { TrackedAnchor, TrackedLink } from "@/components/tracked-link";
 import {
+  healthTrackingDashboardFeatures,
   healthTrackingPackages,
-  platformOperatingModules,
   platformPillars,
   platformSteps,
   platformVerticals,
@@ -108,7 +108,7 @@ export default function HomePage() {
             <h2>One platform. Focused care journeys.</h2>
             <p>
               The brand stays broad, but each vertical stays specific. Hair Care is live first;
-              Health Tracking follows with annual testing, biomarker trends, and doctor-reviewed guidance.
+              Health Tracking combines annual checks, report analysis, trends, guidance, orders, and reminders.
             </p>
           </div>
 
@@ -146,16 +146,19 @@ export default function HomePage() {
       <section className="platform-flow">
         <div className="container platform-flow__container">
           <div>
-            <p className="eyebrow">Platform model</p>
-            <h2>Common infrastructure. Vertical-specific experiences.</h2>
+            <p className="eyebrow">Health Tracking dashboard</p>
+            <h2>Your checkups, reports, and trends in one place.</h2>
             <p>
-              The same operating layer can support questionnaires, lab orders, report storage,
-              doctor reviews, prescriptions, pharmacy orders, notifications, and follow-ups across
-              multiple care paths.
+              Health Tracking is the ongoing home for annual checks, uploaded reports, biomarker
+              trends, care guidance, medication or supplement orders, and retest reminders.
             </p>
-            <div className="platform-module-cloud">
-              {platformOperatingModules.map((module) => (
-                <span key={module}>{module}</span>
+            <div className="health-dashboard-grid">
+              {healthTrackingDashboardFeatures.map((item) => (
+                <article key={item.title} className="health-dashboard-feature">
+                  <Icon name={item.icon} />
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
               ))}
             </div>
           </div>

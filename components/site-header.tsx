@@ -7,9 +7,10 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <Link href="/" className="brand-mark brand-mark--wordmark" aria-label={`${siteConfig.shortName} home`}>
+        <Link href="/" className="brand-mark brand-mark--wordmark" aria-label={`${siteConfig.name} home`}>
           <span>
-            <strong>{siteConfig.shortName}</strong>
+            <strong>{siteConfig.name}</strong>
+            <small>{siteConfig.tagline}</small>
           </span>
         </Link>
 
@@ -23,12 +24,12 @@ export function SiteHeader() {
 
         <div className="site-header__actions">
           <TrackedLink
-            href="/quiz"
+            href="/hair-care"
             eventName="cta_click"
             eventPayload={{ location: "header" }}
             className="button button--primary button--compact"
           >
-            Get Started
+            Get care
           </TrackedLink>
         </div>
       </div>

@@ -1,9 +1,11 @@
 export const siteConfig = {
   name: "Nidar Health",
   shortName: "Nidar",
-  title: "Doctor-reviewed treatment plans for adult male hair loss, from home.",
+  brandStory: "No fear. Get care.",
+  tagline: "Care without hesitation.",
+  title: "Nidar Health platform for condition-specific care from home.",
   description:
-    "A web-first telehealth launch focused on adult male pattern hair-loss screening, photo review, doctor consult, and follow-up.",
+    "A web-first health platform for focused care verticals, starting with doctor-reviewed hair-care screening, photo review, consult requests, and follow-up.",
   consultFee: 499,
   supportEmail: "support@nidar.health",
   privacyEmail: "privacy@nidar.health",
@@ -13,6 +15,7 @@ export const siteConfig = {
 } as const;
 
 export const navigation = [
+  { href: "/hair-care", label: "Hair Care" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
@@ -23,6 +26,82 @@ export const trustPoints = [
   "Doctor-reviewed care for adults 18+",
   "Discreet shipping and online follow-ups",
   "Clear consent, privacy, and status updates",
+];
+
+export const platformVerticals = [
+  {
+    id: "annual-health",
+    label: "Annual Health",
+    status: "Planned",
+    icon: "fact_check",
+    tone: "gold",
+    description:
+      "Preventive checkups, annual panels, and doctor-reviewed health summaries in one guided yearly flow.",
+    href: null,
+    ctaLabel: "Coming soon",
+  },
+  {
+    id: "health-tracking",
+    label: "Health Tracking",
+    status: "Planned",
+    icon: "timeline",
+    tone: "blue",
+    description:
+      "Ongoing vitals, labs, reminders, and progress visibility for people who want their health organized.",
+    href: null,
+    ctaLabel: "Coming soon",
+  },
+  {
+    id: "hair-care",
+    label: "Hair Care",
+    status: "Live path",
+    icon: "dermatology",
+    tone: "lavender",
+    description:
+      "Adult male hair-loss screening with standard photos, doctor review, consult request, and follow-up.",
+    href: "/hair-care",
+    ctaLabel: "Open Hair Care",
+  },
+  {
+    id: "mens-health",
+    label: "Men's Health",
+    status: "Planned",
+    icon: "male",
+    tone: "tan",
+    description:
+      "A future pathway for energy, hormones, sexual health, performance, and doctor-guided follow-up.",
+    href: null,
+    ctaLabel: "Coming soon",
+  },
+  {
+    id: "womens-health",
+    label: "Women's Health",
+    status: "Planned",
+    icon: "science",
+    tone: "rose",
+    description:
+      "A future pathway for hormonal health, skin, hair, wellness, and stage-specific care support.",
+    href: null,
+    ctaLabel: "Coming soon",
+  },
+];
+
+export const platformSteps = [
+  {
+    title: "Choose a care vertical",
+    description:
+      "People land on one Nidar Health platform, then enter the care path that matches their goal.",
+  },
+  {
+    title: "Complete a focused dashboard",
+    description:
+      "Each vertical gets its own education, eligibility logic, quiz, photo or lab requirements, and consent flow.",
+  },
+  {
+    title: "Move into reviewed care",
+    description:
+      "Doctor review, fulfilment visibility, account status, and follow-up stay consistent across verticals.",
+  },
 ];
 
 export const homeStats = [

@@ -1,225 +1,127 @@
-import { FaqList } from "@/components/faq-list";
 import { Icon } from "@/components/icon";
 import { TrackedAnchor, TrackedLink } from "@/components/tracked-link";
-import {
-  ecosystemFeatures,
-  faqs,
-  heroFilmstrip,
-  homepageShowcases,
-  homepageTabs,
-  trustBarItems,
-} from "@/lib/site-content";
+import { platformSteps, platformVerticals, siteConfig, trustPoints } from "@/lib/site-content";
 
 export default function HomePage() {
   return (
     <>
-      <section className="home-hero">
-        <div className="container home-hero__container">
-          <div className="home-hero__intro">
-            <p className="eyebrow">Adults 18+ · Hair-loss launch</p>
-            <h1>Doctor-reviewed hair-loss care from home.</h1>
-            <p className="home-hero__lead">
-              A focused online flow for adult male pattern hair loss: eligibility screening, standard
-              photos, doctor review, treatment only when appropriate, and structured follow-up.
+      <section className="platform-hero">
+        <div className="container platform-hero__container">
+          <div className="platform-hero__copy">
+            <p className="eyebrow">Nidar Health platform</p>
+            <h1>{siteConfig.tagline}</h1>
+            <p className="platform-hero__story">{siteConfig.brandStory}</p>
+            <p className="platform-hero__lead">
+              One common health platform for focused care verticals. Start with Hair Care today,
+              then expand into annual health, tracking, men&apos;s health, and women&apos;s health without
+              rebuilding the care journey from scratch.
             </p>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care"
                 eventName="cta_click"
-                eventPayload={{ location: "hero_primary" }}
+                eventPayload={{ location: "platform_hero_hair_care" }}
                 className="button button--primary"
               >
-                Start assessment
+                Explore Hair Care
               </TrackedLink>
-              <TrackedLink
-                href="/how-it-works"
+              <TrackedAnchor
+                href="#platform-verticals"
                 eventName="cta_click"
-                eventPayload={{ location: "hero_how_it_works" }}
+                eventPayload={{ location: "platform_hero_verticals" }}
                 className="button button--secondary"
               >
-                How it works
-              </TrackedLink>
-            </div>
-          </div>
-
-          <div className="hero-filmstrip" aria-label="Nidar care highlights">
-            <div className="hero-filmstrip__track">
-              {heroFilmstrip.map((item) => (
-                <article key={item.title} className={`hero-filmstrip__card hero-filmstrip__card--${item.tone}`}>
-                  <div className="hero-filmstrip__visual" aria-hidden="true">
-                    <span className="hero-filmstrip__icon">
-                      <Icon name={item.icon} />
-                    </span>
-                    <strong>{item.stat}</strong>
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <div className="hero-filmstrip__copy">
-                    <strong>{item.title}</strong>
-                    <span>{item.caption}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="hero-tabbar" role="navigation" aria-label="Homepage category sections">
-            {homepageTabs.map((item, index) => (
-              <TrackedAnchor
-                key={item.id}
-                href={`#${item.id}`}
-                eventName="cta_click"
-                eventPayload={{ location: "hero_tab", tab: item.id }}
-                className={`hero-tabbar__item${index === 0 ? " hero-tabbar__item--active" : ""}`}
-              >
-                <span className="hero-tabbar__icon" aria-hidden="true">
-                  <Icon name={item.icon} />
-                </span>
-                <span className="hero-tabbar__text">
-                  <strong>{item.label}</strong>
-                  <small>{item.status}</small>
-                </span>
+                View verticals
               </TrackedAnchor>
+            </div>
+          </div>
+
+          <div className="platform-orbit" aria-label="Nidar Health care verticals">
+            <div className="platform-orbit__core">
+              <span>N</span>
+              <strong>Nidar Health</strong>
+              <small>{siteConfig.brandStory}</small>
+            </div>
+            {platformVerticals.map((vertical) => (
+              <div key={vertical.id} className={`platform-orbit__pill platform-orbit__pill--${vertical.tone}`}>
+                <Icon name={vertical.icon} />
+                <span>{vertical.label}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {homepageShowcases.map((section, index) => (
-        <section
-          key={section.id}
-          id={section.id}
-          className={`showcase-block showcase-block--${section.tone}${index % 2 === 1 ? " showcase-block--reverse" : ""}`}
-        >
-          <div className="container showcase-block__outer">
-            <div className="showcase-block__rail">
-              <span>{section.verticalLabel}</span>
-            </div>
-
-            <div className="showcase-block__copy">
-              <p className="eyebrow">Launch module</p>
-              <h2>
-                {section.title} <em>{section.emphasis}</em>
-              </h2>
-              <ul className="showcase-block__checklist">
-                {section.bullets.map((item) => (
-                  <li key={item}>
-                    <Icon name="check_circle" className="showcase-block__check-icon" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p>{section.body}</p>
-              <TrackedLink
-                href={section.ctaHref}
-                eventName="cta_click"
-                eventPayload={{ location: "showcase_cta", section: section.id }}
-                className="button button--primary"
-              >
-                {section.ctaLabel}
-              </TrackedLink>
-            </div>
-
-            <div className="showcase-block__media">
-              <div className={`showcase-visual showcase-visual--${section.tone}`}>
-                <div className="showcase-visual__screen">
-                  <span className="showcase-visual__icon" aria-hidden="true">
-                    <Icon name={section.visualIcon} />
-                  </span>
-                  <strong>{section.visualTitle}</strong>
-                  <p>{section.visualBody}</p>
-                  <div className="showcase-visual__scan" aria-hidden="true">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                </div>
-                <div className="showcase-visual__support">
-                  <span className="showcase-visual__support-icon" aria-hidden="true">
-                    <Icon name={section.supportIcon} />
-                  </span>
-                  <div>
-                    <strong>{section.supportTitle}</strong>
-                    <small>{section.supportBody}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
-
-      <section className="ecosystem-section">
-        <div className="container ecosystem-section__container">
-          <div className="ecosystem-section__copy">
-            <p className="eyebrow">Connected experience</p>
-            <h2>Everything, all-in-one place.</h2>
-            <p>
-              Screening, photo quality checks, doctor notes, fulfilment updates, side-effect check-ins,
-              and refill reminders should feel like one clear product surface.
-            </p>
-
-            <div className="ecosystem-feature-grid">
-              {ecosystemFeatures.map((item) => (
-                <article key={item.title} className="ecosystem-feature-card">
-                  <div className="ecosystem-feature-card__icon">
-                    <Icon name={item.icon} />
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="ecosystem-phone">
-            <div className="ecosystem-phone__frame">
-              <div className="ecosystem-phone__screen" aria-label="Nidar account status">
-                <div className="ecosystem-phone__top">
-                  <span>Nidar</span>
-                  <strong>Review pending</strong>
-                </div>
-                <div className="ecosystem-phone__status">
-                  <Icon name="photo_camera" className="ecosystem-phone__status-icon" />
-                  <div>
-                    <strong>4 photos received</strong>
-                    <small>Doctor review queue</small>
-                  </div>
-                </div>
-                <div className="ecosystem-phone__timeline">
-                  <span>Intake complete</span>
-                  <span>Doctor review</span>
-                  <span>14-day check-in</span>
-                  <span>90-day photos</span>
-                </div>
-              </div>
-            </div>
-          </div>
+      <section className="platform-trust">
+        <div className="container platform-trust__bar">
+          {trustPoints.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
         </div>
       </section>
 
-      <section className="trust-section">
-        <div className="container trust-section__container">
-          <p className="eyebrow">Built around a real care workflow</p>
-          <h2 className="trust-section__heading">Simple for patients. Structured for doctors.</h2>
-          <div className="trust-section__bar">
-            {trustBarItems.map((item) => (
-              <span key={item} className="trust-section__mark">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--tinted" id="faq">
+      <section className="platform-verticals" id="platform-verticals">
         <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Common questions</p>
-            <h2>Premium design still needs clear answers.</h2>
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Care verticals</p>
+            <h2>One platform. Focused care journeys.</h2>
+            <p>
+              Category-led care works best when every service feels like its own clear pathway.
+              Nidar Health uses that platform idea with a narrower, India-ready launch path.
+            </p>
           </div>
-          <FaqList items={faqs} />
+
+          <div className="platform-vertical-grid">
+            {platformVerticals.map((vertical) => (
+              <article key={vertical.id} className={`platform-card platform-card--${vertical.tone}`}>
+                <div className="platform-card__top">
+                  <span className="platform-card__icon" aria-hidden="true">
+                    <Icon name={vertical.icon} />
+                  </span>
+                  <span className="platform-card__status">{vertical.status}</span>
+                </div>
+                <h3>{vertical.label}</h3>
+                <p>{vertical.description}</p>
+                {vertical.href ? (
+                  <TrackedLink
+                    href={vertical.href}
+                    eventName="cta_click"
+                    eventPayload={{ location: "platform_vertical_card", vertical: vertical.id }}
+                    className="button button--primary button--compact"
+                  >
+                    {vertical.ctaLabel}
+                  </TrackedLink>
+                ) : (
+                  <span className="button button--ghost button--compact platform-card__disabled">
+                    {vertical.ctaLabel}
+                  </span>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="platform-flow">
+        <div className="container platform-flow__container">
+          <div>
+            <p className="eyebrow">Platform model</p>
+            <h2>Every vertical gets a dashboard before the quiz.</h2>
+            <p>
+              The home page introduces Nidar Health. Hair Care opens the focused dashboard. From
+              there, users move into eligibility, photos, consult request, account status, and follow-up.
+            </p>
+          </div>
+
+          <div className="platform-flow__steps">
+            {platformSteps.map((step, index) => (
+              <article key={step.title} className="platform-step">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -227,29 +129,29 @@ export default function HomePage() {
         <div className="container">
           <div className="home-cta__shell">
             <div className="home-cta__copy">
-              <p className="eyebrow">Start with clarity</p>
-              <h2>Check eligibility first. Treatment moves forward only after doctor review.</h2>
+              <p className="eyebrow">Live care path</p>
+              <h2>Hair Care is the first Nidar Health vertical.</h2>
               <p>
-                The launch promise stays narrow: adult male pattern hair loss, no instant prescribing,
-                no guaranteed regrowth, and clear escalation when online care is not suitable.
+                Start with a focused adult male hair-loss dashboard, then continue into the quiz only
+                when the user understands the pathway and clinical boundaries.
               </p>
             </div>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care"
                 eventName="cta_click"
-                eventPayload={{ location: "bottom_cta_primary" }}
+                eventPayload={{ location: "platform_bottom_hair_care" }}
                 className="button button--primary"
               >
-                Start assessment
+                Open Hair Care
               </TrackedLink>
               <TrackedLink
-                href="/pricing"
+                href="/quiz"
                 eventName="cta_click"
-                eventPayload={{ location: "bottom_cta_secondary" }}
+                eventPayload={{ location: "platform_bottom_quiz" }}
                 className="button button--secondary"
               >
-                See pricing
+                Start quiz
               </TrackedLink>
             </div>
           </div>

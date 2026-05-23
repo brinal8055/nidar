@@ -3,9 +3,9 @@ export const siteConfig = {
   shortName: "Nidar",
   brandStory: "No fear. Get care.",
   tagline: "Care without hesitation.",
-  title: "Nidar Health platform for condition-specific care from home.",
+  title: "Doctor-reviewed care and health tracking from home.",
   description:
-    "A web-first health platform for focused care verticals, starting with doctor-reviewed hair-care screening, photo review, consult requests, and follow-up.",
+    "A web-first consumer health platform for specific care issues and long-term health tracking, starting with doctor-reviewed hair care.",
   consultFee: 499,
   supportEmail: "support@nidar.health",
   privacyEmail: "privacy@nidar.health",
@@ -23,34 +23,43 @@ export const navigation = [
 ];
 
 export const trustPoints = [
-  "Doctor-reviewed care for adults 18+",
-  "Discreet shipping and online follow-ups",
-  "Clear consent, privacy, and status updates",
+  "Tests at home",
+  "Reports explained",
+  "Doctors review",
+  "Medicines delivered",
+  "Health tracked over time",
 ];
 
-export const platformVerticals = [
+export const platformPillars = [
   {
-    id: "annual-health",
-    label: "Annual Health",
-    status: "Planned",
-    icon: "fact_check",
-    tone: "gold",
+    id: "hair-loss-care",
+    label: "Hair Care",
+    role: "Acquisition wedge",
+    icon: "dermatology",
+    tone: "lavender",
+    title: "Solve a specific high-intent problem.",
     description:
-      "Preventive checkups, annual panels, and doctor-reviewed health summaries in one guided yearly flow.",
-    href: null,
-    ctaLabel: "Coming soon",
+      "Hair Care starts with adult male hair-loss assessment, standard photos, doctor review, treatment only when appropriate, delivery, and 30/60/90-day progress tracking.",
+    flow: "Hair-loss assessment -> photo upload -> doctor review -> prescription decision -> delivery -> follow-up",
+    href: "/hair-care",
+    ctaLabel: "Open Hair Care",
   },
   {
     id: "health-tracking",
     label: "Health Tracking",
-    status: "Planned",
+    role: "Retention engine",
     icon: "timeline",
     tone: "blue",
+    title: "Understand how your body is moving over time.",
     description:
-      "Ongoing vitals, labs, reminders, and progress visibility for people who want their health organized.",
+      "Health Tracking turns annual or bi-annual tests into biomarker trends, doctor-reviewed guidance, action plans, and retest reminders.",
+    flow: "Health questionnaire -> package -> home sample -> report parsing -> doctor review -> dashboard -> retest reminders",
     href: null,
-    ctaLabel: "Coming soon",
+    ctaLabel: "Beta next",
   },
+];
+
+export const platformVerticals = [
   {
     id: "hair-care",
     label: "Hair Care",
@@ -61,6 +70,28 @@ export const platformVerticals = [
       "Adult male hair-loss screening with standard photos, doctor review, consult request, and follow-up.",
     href: "/hair-care",
     ctaLabel: "Open Hair Care",
+  },
+  {
+    id: "health-tracking",
+    label: "Health Tracking",
+    status: "Beta next",
+    icon: "timeline",
+    tone: "blue",
+    description:
+      "Annual or bi-annual tests, report extraction, doctor-reviewed guidance, biomarker trends, and retest reminders.",
+    href: null,
+    ctaLabel: "Beta next",
+  },
+  {
+    id: "annual-health",
+    label: "Annual Health",
+    status: "Starter package",
+    icon: "fact_check",
+    tone: "gold",
+    description:
+      "CBC, thyroid, liver, kidney, lipid, and sugar checks packaged into one simple yearly baseline.",
+    href: null,
+    ctaLabel: "Coming soon",
   },
   {
     id: "mens-health",
@@ -86,21 +117,52 @@ export const platformVerticals = [
   },
 ];
 
+export const healthTrackingPackages = [
+  {
+    name: "Basic Annual Health",
+    markers: "CBC, thyroid, liver, kidney, lipid, sugar",
+    goal: "A simple yearly baseline for overall health.",
+  },
+  {
+    name: "Vitamin & Fatigue",
+    markers: "Vitamin D, B12, ferritin, CBC, thyroid",
+    goal: "For low energy, fatigue, hair concerns, and deficiency risk.",
+  },
+  {
+    name: "Diabetes Risk",
+    markers: "HbA1c, fasting sugar, lipid, kidney",
+    goal: "Track metabolic risk and follow doctor-reviewed next steps.",
+  },
+];
+
+export const platformOperatingModules = [
+  "User profile",
+  "Questionnaires",
+  "Lab orders",
+  "Report storage",
+  "Biomarker trends",
+  "Doctor review",
+  "Prescriptions",
+  "Pharmacy orders",
+  "Follow-ups",
+  "Notifications",
+];
+
 export const platformSteps = [
   {
     title: "Choose a care vertical",
     description:
-      "People land on one Nidar Health platform, then enter the care path that matches their goal.",
+      "People land on one Nidar Health platform, then enter Hair Care or Health Tracking depending on the job they need done.",
   },
   {
     title: "Complete a focused dashboard",
     description:
-      "Each vertical gets its own education, eligibility logic, quiz, photo or lab requirements, and consent flow.",
+      "Each vertical has its own education, eligibility logic, questionnaire, photo or lab requirements, consent, and payment moment.",
   },
   {
     title: "Move into reviewed care",
     description:
-      "Doctor review, fulfilment visibility, account status, and follow-up stay consistent across verticals.",
+      "Doctor review, fulfilment visibility, account status, and follow-up stay consistent across verticals while AI stays behind the scenes.",
   },
 ];
 

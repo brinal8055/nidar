@@ -255,7 +255,7 @@ ul {
 }
 
 .platform-hero {
-  padding: 6.5rem 0 3rem;
+  padding: 4.8rem 0 2.6rem;
   overflow: hidden;
 }
 
@@ -268,15 +268,15 @@ ul {
 
 .platform-hero__copy {
   display: grid;
-  gap: 1.1rem;
+  gap: 1rem;
 }
 
 .platform-hero__copy h1 {
-  max-width: 10ch;
+  max-width: 13ch;
   font-family: var(--font-display);
-  font-size: clamp(4rem, 9vw, 7.4rem);
-  line-height: 0.94;
-  letter-spacing: -0.055em;
+  font-size: clamp(3.4rem, 5.15vw, 5.65rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
 .platform-hero__story {
@@ -289,15 +289,15 @@ ul {
 }
 
 .platform-hero__lead {
-  max-width: 44rem;
+  max-width: 42rem;
   color: var(--text-muted);
-  font-size: 1.15rem;
-  line-height: 1.68;
+  font-size: 1.08rem;
+  line-height: 1.62;
 }
 
 .platform-orbit {
   position: relative;
-  min-height: 38rem;
+  min-height: 34rem;
   border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.92), transparent 23%),
@@ -2754,7 +2754,7 @@ ul {
   }
 
   .platform-orbit {
-    min-height: 30rem;
+    min-height: 28rem;
   }
 
   .platform-vertical-grid {
@@ -2803,7 +2803,7 @@ ul {
   .hero-section,
   .platform-hero,
   .home-hero {
-    padding-top: 3.4rem;
+    padding-top: 2.6rem;
   }
 
   .container {
@@ -2811,10 +2811,21 @@ ul {
   }
 
   .home-hero__intro h1,
-  .platform-hero__copy h1,
   .hero-copy h1 {
     max-width: 14ch;
     font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .platform-hero__copy h1 {
+    max-width: 12.5ch;
+    font-size: clamp(2.45rem, 10.5vw, 3.35rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .platform-hero__lead {
+    font-size: 1rem;
+    line-height: 1.58;
   }
 
   .brand-mark--wordmark strong {

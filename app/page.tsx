@@ -174,23 +174,61 @@ export default function HomePage() {
 
       <section className="platform-packages">
         <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Health Tracking beta scope</p>
-            <h2>Start with three packages, not twenty.</h2>
+          <div className="section-heading section-heading--packages">
+            <p className="eyebrow">Health Tracking packages</p>
+            <h2>Choose the checkup that matches what you want to understand.</h2>
             <p>
-              Health Tracking should begin small: reports explained, doctors review, biomarkers tracked,
-              and retest reminders built around a few high-value packages.
+              At-home sample collection, lab reports explained clearly, doctor-reviewed guidance,
+              and reminders to retest when it matters.
             </p>
           </div>
           <div className="platform-package-grid">
             {healthTrackingPackages.map((item) => (
               <article key={item.name} className="platform-package">
-                <h3>{item.name}</h3>
-                <p>{item.goal}</p>
-                <span>{item.markers}</span>
+                <div className="platform-package__top">
+                  <span className="platform-package__badge">{item.badge}</span>
+                  <div className="platform-package__price">
+                    <strong>{item.price}</strong>
+                    <small>{item.priceNote}</small>
+                  </div>
+                </div>
+                <div>
+                  <h3>{item.name}</h3>
+                  <p>{item.bestFor}</p>
+                </div>
+                <div className="platform-package__section">
+                  <span>Includes</span>
+                  <ul>
+                    {item.includes.map((included) => (
+                      <li key={included}>
+                        <Icon name="check_circle" />
+                        {included}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="platform-package__section platform-package__section--muted">
+                  <span>What you get</span>
+                  <ul>
+                    {item.deliverables.map((deliverable) => (
+                      <li key={deliverable}>{deliverable}</li>
+                    ))}
+                  </ul>
+                </div>
+                <TrackedAnchor
+                  href={`mailto:${siteConfig.supportEmail}?subject=${encodeURIComponent(`${item.name} beta interest`)}`}
+                  eventName="cta_click"
+                  eventPayload={{ location: "health_tracking_package", package: item.name }}
+                  className="button button--primary"
+                >
+                  Join beta
+                </TrackedAnchor>
               </article>
             ))}
           </div>
+          <p className="platform-package-note">
+            Final availability, partner lab coverage, and pricing are confirmed before booking.
+          </p>
         </div>
       </section>
 
@@ -201,8 +239,8 @@ export default function HomePage() {
               <p className="eyebrow">Live care path</p>
               <h2>Hair Care launches first. Health Tracking deepens the platform.</h2>
               <p>
-                Start with the focused adult male hair-loss dashboard, then use learnings from that
-                funnel to launch Health Tracking for 100-200 beta users with partner labs.
+                Start with the focused adult male hair-loss dashboard, or register interest in Health
+                Tracking packages for at-home testing, explained reports, and doctor-reviewed guidance.
               </p>
             </div>
             <div className="button-row">

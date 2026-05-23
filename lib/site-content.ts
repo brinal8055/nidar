@@ -120,18 +120,30 @@ export const platformVerticals = [
 export const healthTrackingPackages = [
   {
     name: "Basic Annual Health",
-    markers: "CBC, thyroid, liver, kidney, lipid, sugar",
-    goal: "A simple yearly baseline for overall health.",
+    badge: "Best yearly baseline",
+    price: "Rs 1,499",
+    priceNote: "intro beta price",
+    bestFor: "People who want a simple annual snapshot of their overall health.",
+    includes: ["CBC", "Thyroid profile", "Liver profile", "Kidney profile", "Lipid profile", "Blood sugar"],
+    deliverables: ["Home sample collection", "Report explained in plain language", "Doctor-reviewed guidance", "Annual retest reminder"],
   },
   {
     name: "Vitamin & Fatigue",
-    markers: "Vitamin D, B12, ferritin, CBC, thyroid",
-    goal: "For low energy, fatigue, hair concerns, and deficiency risk.",
+    badge: "Popular with hair-care users",
+    price: "Rs 1,899",
+    priceNote: "intro beta price",
+    bestFor: "People with low energy, fatigue, hair concerns, vegetarian diets, or deficiency risk.",
+    includes: ["Vitamin D", "Vitamin B12", "Ferritin", "CBC", "Thyroid profile"],
+    deliverables: ["Deficiency-focused summary", "Doctor-reviewed next steps", "Supplement guidance if appropriate", "90-day retest reminder"],
   },
   {
     name: "Diabetes Risk",
-    markers: "HbA1c, fasting sugar, lipid, kidney",
-    goal: "Track metabolic risk and follow doctor-reviewed next steps.",
+    badge: "Metabolic tracking",
+    price: "Rs 1,299",
+    priceNote: "intro beta price",
+    bestFor: "People with family history, weight concerns, high sugar history, or early metabolic risk.",
+    includes: ["HbA1c", "Fasting glucose", "Lipid profile", "Kidney profile"],
+    deliverables: ["Risk-level explanation", "Doctor-reviewed lifestyle guidance", "Trend tracking dashboard", "3-6 month retest reminder"],
   },
 ];
 

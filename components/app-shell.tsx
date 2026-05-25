@@ -7,9 +7,9 @@ import { SiteHeader } from "@/components/site-header";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isInternalRoute = pathname.startsWith("/admin") || pathname.startsWith("/doctor");
 
-  if (isAdminRoute) {
+  if (isInternalRoute) {
     return <div className="admin-root-shell">{children}</div>;
   }
 

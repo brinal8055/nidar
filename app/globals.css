@@ -2609,6 +2609,7 @@ ul {
 .admin-section-header h2,
 .admin-detail__header h1,
 .admin-case-row h2,
+.admin-metric-card h2,
 .admin-metric-card strong {
   font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
   letter-spacing: -0.03em;
@@ -2662,6 +2663,14 @@ ul {
 
 .admin-metric-card strong {
   font-size: 2rem;
+}
+
+.admin-metric-card h2 {
+  font-size: 1.35rem;
+}
+
+.admin-metric-card--wide {
+  gap: 0.9rem;
 }
 
 .admin-filter-grid {
@@ -2735,6 +2744,56 @@ ul {
 .admin-case-row__link {
   color: var(--accent-deep);
   font-weight: 700;
+}
+
+.admin-workflow-list,
+.admin-decision-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-workflow-list > div,
+.admin-mini-row {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--line);
+}
+
+.admin-mini-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.admin-mini-row p {
+  margin-top: 0.25rem;
+  color: var(--ink-soft);
+}
+
+.admin-decision-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-decision-button {
+  min-height: 3.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(29, 43, 40, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.admin-decision-button:hover {
+  transform: translateY(-1px);
+  background: rgba(150, 163, 132, 0.14);
+  border-color: rgba(150, 163, 132, 0.34);
 }
 
 .admin-pill,
@@ -2866,7 +2925,8 @@ ul {
   .admin-filter-grid,
   .admin-two-col,
   .admin-detail__grid,
-  .admin-key-grid {
+  .admin-key-grid,
+  .admin-decision-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3152,6 +3212,10 @@ ul {
 
   .check-group__grid,
   .photo-angle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-mini-row {
     grid-template-columns: 1fr;
   }
 

@@ -8,6 +8,7 @@ node_modules/
 out/
 dist/
 coverage/
+supabase/.temp/
 
 npm-debug.log*
 yarn-debug.log*

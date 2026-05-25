@@ -1,0 +1,19 @@
+project_id = "nidar-health"
+
+[functions.create_case]
+verify_jwt = false
+
+[functions.assign_case]
+verify_jwt = true
+
+[functions.doctor_decision]
+verify_jwt = true
+
+[functions.upload_case_media]
+verify_jwt = true
+
+[functions.update_fulfilment]
+verify_jwt = true
+
+[functions.support_note]
+verify_jwt = true

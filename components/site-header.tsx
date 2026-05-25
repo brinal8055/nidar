@@ -23,6 +23,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="site-header__actions">
+          <Link href="/staff/login" className="site-header__staff-link">
+            Staff login
+          </Link>
           <TrackedLink
             href="/hair-care"
             eventName="cta_click"

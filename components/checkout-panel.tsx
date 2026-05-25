@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
+import { createCaseOnBackend } from "@/lib/backend-api";
 import { siteConfig } from "@/lib/site-content";
 import { emptyQuizData, normalizeQuizData, OrderRecord, QuizData, redFlagNoneValue, storageKeys } from "@/lib/storage";
 
@@ -35,22 +36,58 @@ export function CheckoutPanel() {
     coupon: "",
     source: "direct",
   });
+  const [submissionError, setSubmissionError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     trackEvent("consult_request_start", { source: "consult_request_page" });
   }, []);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmissionError("");
+    setIsSubmitting(true);
+
+    const backendCase = await createCaseOnBackend({
+      contact: formState,
+      quizSummary: quiz,
+    });
+
+    if (backendCase.configured && backendCase.error) {
+      setSubmissionError(backendCase.error);
+      setIsSubmitting(false);
+      return;
+    }
+
+    const isBackendStored = Boolean(backendCase.configured && backendCase.data);
 
     const order: OrderRecord = {
-      ...formState,
+      ...(isBackendStored
+        ? {
+            fullName: "Submitted request",
+            phone: "",
+            email: "",
+            coupon: "",
+            source: formState.source,
+          }
+        : formState),
       consultFee: siteConfig.consultFee,
       createdAt: new Date().toISOString(),
       reviewEta: siteConfig.turnaround,
-      quizSummary: quiz,
+      quizSummary: isBackendStored
+        ? {
+            ...emptyQuizData,
+            eligibilityOutcome: quiz.eligibilityOutcome,
+            submittedAt: quiz.submittedAt,
+          }
+        : quiz,
+      backendStored: isBackendStored,
+      backendCaseId: backendCase.configured ? backendCase.data?.caseId : undefined,
+      caseNumber: backendCase.configured ? backendCase.data?.caseNumber : undefined,
       messages: [
-        "Your eligibility form has been received.",
+        isBackendStored
+          ? "Your eligibility form has been securely saved to the backend."
+          : "Your eligibility form has been received on this device for local testing.",
         "A doctor review is required before any prescription decision is made.",
         "Visible improvement usually takes 3-6 months if treatment is approved and used consistently.",
       ],
@@ -79,7 +116,11 @@ export function CheckoutPanel() {
     };
 
     window.localStorage.setItem(storageKeys.order, JSON.stringify(order));
-    trackEvent("consult_request_submitted", { consultFee: siteConfig.consultFee, source: formState.source });
+    trackEvent("consult_request_submitted", {
+      backendStored: isBackendStored,
+      consultFee: siteConfig.consultFee,
+      source: formState.source,
+    });
     trackEvent("account_status_created", { method: "consult_request", hasOrder: true });
     router.push("/thank-you");
   }
@@ -148,10 +189,14 @@ export function CheckoutPanel() {
         </div>
 
         <div className="checkout-actions">
-          <button type="submit" className="button button--primary">
-            Submit consult request
+          {submissionError ? <p className="form-error">{submissionError}</p> : null}
+          <button type="submit" className="button button--primary" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting securely..." : "Submit consult request"}
           </button>
-          <p className="subtle">Payment collection should only be enabled after gateway callbacks and server verification are connected.</p>
+          <p className="subtle">
+            With Supabase configured, the full request is saved to the backend. Local storage keeps
+            only minimal status context for this device.
+          </p>
         </div>
       </form>
 
@@ -166,6 +211,7 @@ export function CheckoutPanel() {
           <li>Doctor review required before any prescription decision.</li>
           <li>Not for emergencies.</li>
           <li>Expected turnaround: {siteConfig.turnaround}.</li>
+          <li>Backend storage: {quiz.submittedAt ? "quiz completed" : "pending quiz completion"}.</li>
           <li>Eligibility route: {quiz.eligibilityOutcome || "pending submission"}.</li>
           <li>Reported pattern: {quiz.hairLossPattern || "not captured"}.</li>
           <li>Photo uploads captured: {quiz.photoNames.length || 0}.</li>

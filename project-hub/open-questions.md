@@ -23,8 +23,7 @@ Updated: April 17, 2026
 
 ## Technical
 
-- What is the preferred backend stack beyond the frontend shell?
-- What auth provider or OTP service should be used?
-- Which storage provider should hold patient-uploaded images?
+- What is the final Supabase project region after legal/compliance review?
+- Which OTP or MFA policy should staff accounts use after the first password-based rollout?
 - What analytics destination should receive the event schema?
 - What payment provider should be wired first: Razorpay, Cashfree, or both?

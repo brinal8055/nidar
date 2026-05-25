@@ -63,3 +63,20 @@ The user supplied a concrete HTML sample after the broader Medvi comparison. The
 
 Reason:
 The user supplied a clinical-product playbook that makes the safest first wedge explicit: adult male pattern hair loss is most online-friendly and protocolizable. The app should screen for pattern, timeline, family history, triggers, scalp symptoms, safety history, photos, and counselling flags, while routing female hair loss, minors, patchy sudden loss, severe scalp disease, PRP, and transplant needs away from the simple online prescription path.
+
+## May 25, 2026
+
+### V1 backend uses Supabase while Cloudflare Pages stays static
+
+Reason:
+The current app is statically exported for Cloudflare Pages. For the first secure backend slice, Supabase Auth, Postgres, private Storage, RLS, and Edge Functions give Nidar a faster secure source of truth without moving the public marketing site to a full-stack host yet.
+
+### Internal access is staff-role based, not hidden-route based
+
+Reason:
+Admin, ops, and doctor portals should never rely on obscure URLs or frontend-only visibility. Staff login routes users by role, while Supabase RLS and Edge Functions enforce access to cases, media, doctor decisions, and audit records.
+
+### Redis is excluded from PHI storage in v1
+
+Reason:
+Auditability matters more than cache speed for early healthcare operations. Postgres remains the source of truth; Redis can be reconsidered later only for non-sensitive rate limits, locks, or short-lived job state.

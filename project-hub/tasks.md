@@ -8,11 +8,12 @@ Updated: April 21, 2026
 
 ## Next Up
 
-- Replace localStorage-based quiz and order state with server-backed persistence
-- Connect the public intake and admin dashboard to the same case record model
-- Add real OTP login flow for the account area
-- Add admin RBAC and protected routes
-- Wire secure file upload flow for patient photos
+- Create the real Supabase project and apply `supabase/migrations/202605250001_backend_security.sql`
+- Deploy Supabase Edge Functions for case creation, assignment, review, media, fulfilment, and support notes
+- Add Cloudflare Pages environment variables for Supabase public configuration
+- Provision staff users and `profiles` / `doctor_profiles` rows
+- Replace static internal fixture data with Supabase-backed case queries
+- Wire secure patient photo upload flow to private Supabase Storage
 - Integrate payment flow with a real gateway
 
 ## Planned After That
@@ -43,6 +44,9 @@ Updated: April 21, 2026
 - Built the internal doctor-and-ops admin shell in the same codebase
 - Defined shared mock admin data models for intake, case review, fulfilment, support, and audit events
 - Added a separate admin workspace chrome instead of reusing the public header/footer
+- Added a Staff login entry and Supabase-ready internal auth gates for admin and doctor portals
+- Added Supabase backend schema, RLS policies, private storage policy, and Edge Function scaffolding
+- Added backend security runbook and environment example for Cloudflare Pages + Supabase
 - Added basic analytics event hooks
 - Verified with `npm run typecheck`
 - Verified with `npm run lint`

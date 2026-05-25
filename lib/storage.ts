@@ -161,6 +161,9 @@ export type OrderRecord = {
   createdAt: string;
   reviewEta: string;
   quizSummary: QuizData;
+  backendStored?: boolean;
+  backendCaseId?: string;
+  caseNumber?: string;
   messages: string[];
   statuses: OrderStatus[];
 };

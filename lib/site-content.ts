@@ -16,6 +16,7 @@ export const siteConfig = {
 
 export const navigation = [
   { href: "/hair-care", label: "Hair Care" },
+  { href: "/health-tracking", label: "Annual Health" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
@@ -23,11 +24,11 @@ export const navigation = [
 ];
 
 export const trustPoints = [
-  "Tests at home",
-  "Reports explained",
-  "Doctors review",
-  "Medicines delivered",
-  "Health tracked over time",
+  "AI-assisted, doctor-reviewed",
+  "Licensed doctor review before clinical guidance",
+  "Private reports and photos",
+  "Partner-led lab and medicine fulfilment",
+  "Consent-first data handling",
 ];
 
 export const platformPillars = [
@@ -46,7 +47,7 @@ export const platformPillars = [
   },
   {
     id: "health-tracking",
-    label: "Health Tracking",
+    label: "Annual Health Tracking",
     role: "Retention engine",
     icon: "timeline",
     tone: "blue",
@@ -57,13 +58,26 @@ export const platformPillars = [
     href: null,
     ctaLabel: "Beta next",
   },
+  {
+    id: "weight-loss-care",
+    label: "Weight Loss Care",
+    role: "Coming soon",
+    icon: "monitor_heart",
+    tone: "gold",
+    title: "Doctor-led weight-loss care, built carefully.",
+    description:
+      "A future pathway for eligibility screening, lab review, GLP-1 suitability discussion where appropriate, doctor supervision, lifestyle support, and tracking.",
+    flow: "Eligibility screening -> labs -> doctor supervision -> lifestyle support -> tracking",
+    href: "/weight-loss",
+    ctaLabel: "Join waitlist",
+  },
 ];
 
 export const platformVerticals = [
   {
     id: "hair-care",
     label: "Hair Care",
-    status: "Live path",
+    status: "Live",
     icon: "dermatology",
     tone: "lavender",
     description:
@@ -73,37 +87,75 @@ export const platformVerticals = [
   },
   {
     id: "health-tracking",
-    label: "Health Tracking",
-    status: "Beta next",
+    label: "Annual Health Tracking",
+    status: "Beta",
     icon: "timeline",
     tone: "blue",
     description:
       "Annual checks, report analysis, biomarker trends, care guidance, orders, and retest reminders in one dashboard.",
-    href: null,
-    ctaLabel: "Beta next",
+    href: "/health-tracking",
+    ctaLabel: "Explore beta",
+  },
+  {
+    id: "weight-loss",
+    label: "Weight Loss Care",
+    status: "Coming soon",
+    icon: "monitor_heart",
+    tone: "gold",
+    description:
+      "Doctor-led weight-loss care with eligibility screening, lab review, GLP-1 suitability discussion, lifestyle support, and tracking.",
+    href: "/weight-loss",
+    ctaLabel: "Join waitlist",
   },
   {
     id: "mens-health",
     label: "Men's Health",
-    status: "Planned",
+    status: "Coming soon",
     icon: "male",
     tone: "tan",
     description:
-      "A future pathway for energy, hormones, sexual health, performance, and doctor-guided follow-up.",
+      "A future pathway for energy, sexual health, hormones, performance, and doctor-reviewed follow-up.",
     href: null,
     ctaLabel: "Coming soon",
   },
   {
     id: "womens-health",
     label: "Women's Health",
-    status: "Planned",
+    status: "Coming soon",
     icon: "science",
     tone: "rose",
     description:
-      "A future pathway for hormonal health, skin, hair, wellness, and stage-specific care support.",
+      "A future pathway for hormonal health, skin, hair, cycle-stage support, and doctor-reviewed guidance.",
     href: null,
     ctaLabel: "Coming soon",
   },
+];
+
+export const platformHowItWorks = [
+  "Tell us your concern",
+  "Guided intake",
+  "Tests, photos, or reports",
+  "AI organizes data",
+  "Doctor reviews",
+  "Plan, delivery, and tracking",
+];
+
+export const healthTrackingProfiles = [
+  "Vitamin profile",
+  "Thyroid profile",
+  "Diabetes risk",
+  "Liver health",
+  "Kidney health",
+  "Lipid profile",
+  "CBC profile",
+];
+
+export const platformTrustItems = [
+  "AI-assisted, doctor-reviewed",
+  "Licensed doctor review before clinical guidance",
+  "Private reports and photos",
+  "Partner-led lab and medicine fulfilment",
+  "Consent-first data handling",
 ];
 
 export const healthTrackingDashboardFeatures = [
@@ -143,8 +195,8 @@ export const healthTrackingPackages = [
   {
     name: "Basic Annual Health",
     badge: "Best yearly baseline",
-    price: "Rs 1,499",
-    priceNote: "intro beta price",
+    price: "Rs 1,499-Rs 2,499",
+    priceNote: "varies by city and lab partner",
     bestFor: "People who want a simple annual snapshot of their overall health.",
     includes: ["CBC", "Thyroid profile", "Liver profile", "Kidney profile", "Lipid profile", "Blood sugar"],
     deliverables: ["Home sample collection", "Report explained in plain language", "Doctor-reviewed guidance", "Annual retest reminder"],
@@ -152,8 +204,8 @@ export const healthTrackingPackages = [
   {
     name: "Vitamin & Fatigue",
     badge: "Popular with hair-care users",
-    price: "Rs 1,899",
-    priceNote: "intro beta price",
+    price: "Rs 1,999-Rs 3,499",
+    priceNote: "varies by city and lab partner",
     bestFor: "People with low energy, fatigue, hair concerns, vegetarian diets, or deficiency risk.",
     includes: ["Vitamin D", "Vitamin B12", "Ferritin", "CBC", "Thyroid profile"],
     deliverables: ["Deficiency-focused summary", "Doctor-reviewed next steps", "Supplement guidance if appropriate", "90-day retest reminder"],
@@ -161,8 +213,8 @@ export const healthTrackingPackages = [
   {
     name: "Diabetes Risk",
     badge: "Metabolic tracking",
-    price: "Rs 1,299",
-    priceNote: "intro beta price",
+    price: "Rs 1,999-Rs 3,999",
+    priceNote: "varies by city and lab partner",
     bestFor: "People with family history, weight concerns, high sugar history, or early metabolic risk.",
     includes: ["HbA1c", "Fasting glucose", "Lipid profile", "Kidney profile"],
     deliverables: ["Risk-level explanation", "Doctor-reviewed lifestyle guidance", "Trend tracking dashboard", "3-6 month retest reminder"],
@@ -171,19 +223,19 @@ export const healthTrackingPackages = [
 
 export const platformSteps = [
   {
-    title: "Book a package or upload reports",
+    title: "Tell us your concern",
     description:
-      "Start with Basic Annual Health, Vitamin & Fatigue, Diabetes Risk, or bring an existing report into the dashboard.",
+      "Choose Hair Care, Annual Health Tracking, or a coming-soon pathway and complete a guided intake.",
   },
   {
-    title: "Understand the result",
+    title: "Tests, photos, or reports",
     description:
-      "Reports are organized into markers, ranges, status, trends, and plain-language explanations before review.",
+      "Upload hair photos, book partner-lab sample collection, or add existing health reports where relevant.",
   },
   {
-    title: "Act and retest",
+    title: "Doctor-reviewed plan",
     description:
-      "Doctor guidance, prescriptions, supplements, follow-up actions, orders, and retest reminders sit in the same flow.",
+      "AI organizes data for review. Licensed doctors make clinical guidance decisions, then care moves into delivery and tracking.",
   },
 ];
 
@@ -197,7 +249,7 @@ export const heroPrograms = [
   { label: "Hair Loss", status: "Live focus" },
   { label: "Men's Health", status: "Next phase" },
   { label: "Dermatology", status: "Later" },
-  { label: "Metabolic Care", status: "Later" },
+  { label: "Weight Loss Care", status: "Later" },
 ];
 
 export const includedFeatures = [
@@ -457,9 +509,9 @@ export const valueCards = [
 
 export const pricingCards = [
   {
-    name: "Initial consult",
+    name: "Hair Assessment",
     price: "Rs 499",
-    note: "Paid upfront",
+    note: "Hair Care",
     details: [
       "Eligibility review and structured intake",
       "Doctor assessment before any prescription",
@@ -467,23 +519,24 @@ export const pricingCards = [
     ],
   },
   {
-    name: "Treatment plan",
-    price: "After review",
-    note: "Case dependent",
+    name: "Basic Annual Health",
+    price: "Rs 1,499-Rs 2,499",
+    note: "Annual Health Tracking",
     details: [
-      "Medication is only offered if clinically appropriate",
-      "Pharmacy and delivery charges vary by plan",
-      "No guaranteed outcomes or exaggerated claims",
+      "CBC, thyroid, liver, kidney, lipid, and sugar profile",
+      "Partner-led home sample collection where available",
+      "Report organized for doctor-reviewed guidance",
     ],
   },
   {
-    name: "Follow-up and refill",
-    price: "From Rs 999",
-    note: "When applicable",
+    name: "Weight Loss Care",
+    price: "Coming soon",
+    note: "Future vertical",
     details: [
-      "Monthly follow-up and refill reminders",
-      "Status tracking through the account area",
-      "Designed to evolve into automated renewals later",
+      "Eligibility screening before any care pathway",
+      "Lab review and doctor supervision planned",
+      "GLP-1 suitability can be discussed only after review",
+      "No specific medicine promotion or outcome guarantees",
     ],
   },
 ];

@@ -45,6 +45,7 @@ Supabase is the v1 backend:
 - `assign_case`: admin/ops assignment or reassignment of a doctor.
 - `doctor_decision`: doctor-only decision submission for assigned cases.
 - `upload_case_media`: signed private upload URL creation and media audit logging.
+- `get_case_media_url`: short-lived private media viewing URL after role checks.
 - `update_fulfilment`: admin/ops fulfilment or partner-order status updates.
 - `support_note`: admin/ops/support case note creation.
 

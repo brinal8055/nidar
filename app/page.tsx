@@ -1,14 +1,25 @@
+import type { CSSProperties } from "react";
+
 import { Icon } from "@/components/icon";
-import { TrackedAnchor, TrackedLink } from "@/components/tracked-link";
+import { TrackedLink } from "@/components/tracked-link";
 import {
-  healthTrackingDashboardFeatures,
+  healthTrackingProfiles,
   healthTrackingPackages,
-  platformPillars,
+  platformHowItWorks,
+  platformTrustItems,
   platformSteps,
   platformVerticals,
   siteConfig,
   trustPoints,
 } from "@/lib/site-content";
+
+const orbitPositions: Record<string, { x: number; y: number }> = {
+  "weight-loss": { x: 20, y: 29 },
+  "health-tracking": { x: 62, y: 16 },
+  "hair-care": { x: 88, y: 50 },
+  "womens-health": { x: 62, y: 84 },
+  "mens-health": { x: 20, y: 71 },
+};
 
 export default function HomePage() {
   return (
@@ -20,76 +31,51 @@ export default function HomePage() {
             <h1>{siteConfig.title}</h1>
             <p className="platform-hero__story">{siteConfig.brandStory}</p>
             <p className="platform-hero__lead">
-              Treat specific issues and track your body over time from one consumer health platform.
-              Hair Care brings fast, high-intent acquisition. Health Tracking becomes the long-term
-              retention engine.
+              One consumer health platform for focused care journeys, annual health tracking,
+              private reports, partner-led fulfilment, and licensed doctor review where clinical
+              guidance is needed.
             </p>
             <div className="button-row">
               <TrackedLink
-                href="/hair-care"
+                href="/quiz"
                 eventName="cta_click"
-                eventPayload={{ location: "platform_hero_hair_care" }}
+                eventPayload={{ location: "platform_hero_hair_assessment" }}
                 className="button button--primary"
               >
-                Explore Hair Care
+                Start Hair Assessment
               </TrackedLink>
-              <TrackedAnchor
-                href="#platform-verticals"
+              <TrackedLink
+                href="/health-tracking"
                 eventName="cta_click"
-                eventPayload={{ location: "platform_hero_verticals" }}
+                eventPayload={{ location: "platform_hero_health_tracking" }}
                 className="button button--secondary"
               >
-                View verticals
-              </TrackedAnchor>
+                Explore Health Tracking
+              </TrackedLink>
             </div>
           </div>
 
           <div className="platform-orbit" aria-label="Nidar Health care verticals">
             <div className="platform-orbit__core">
               <span>N</span>
-              <strong>Nidar Health</strong>
-              <small>{siteConfig.tagline}</small>
+              <strong>Care platform</strong>
             </div>
             {platformVerticals.map((vertical) => (
-              <div key={vertical.id} className={`platform-orbit__pill platform-orbit__pill--${vertical.tone}`}>
+              <div
+                key={vertical.id}
+                className={`platform-orbit__pill platform-orbit__pill--${vertical.tone} platform-orbit__pill--${vertical.id}`}
+                style={
+                  {
+                    "--orbit-x": `${orbitPositions[vertical.id]?.x ?? 50}%`,
+                    "--orbit-y": `${orbitPositions[vertical.id]?.y ?? 50}%`,
+                  } as CSSProperties
+                }
+              >
                 <Icon name={vertical.icon} />
                 <span>{vertical.label}</span>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="platform-pillars">
-        <div className="container platform-pillars__grid">
-          {platformPillars.map((pillar) => (
-            <article key={pillar.id} className={`platform-pillar platform-pillar--${pillar.tone}`}>
-              <div className="platform-pillar__meta">
-                <span className="platform-card__icon" aria-hidden="true">
-                  <Icon name={pillar.icon} />
-                </span>
-                <span>{pillar.role}</span>
-              </div>
-              <div>
-                <p className="eyebrow">{pillar.label}</p>
-                <h2>{pillar.title}</h2>
-              </div>
-              <p>{pillar.description}</p>
-              <div className="platform-pillar__flow">{pillar.flow}</div>
-              {pillar.href ? (
-                <TrackedLink
-                  href={pillar.href}
-                  eventName="cta_click"
-                  eventPayload={{ location: "platform_pillar", pillar: pillar.id }}
-                  className="button button--primary"
-                >
-                  {pillar.ctaLabel}
-                </TrackedLink>
-              ) : (
-                <span className="button button--ghost platform-card__disabled">{pillar.ctaLabel}</span>
-              )}
-            </article>
-          ))}
         </div>
       </section>
 
@@ -105,10 +91,11 @@ export default function HomePage() {
         <div className="container">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Care verticals</p>
-            <h2>One platform. Focused care journeys.</h2>
+            <h2>Three verticals, one trusted care layer.</h2>
             <p>
-              The brand stays broad, but each vertical stays specific. Hair Care is live first;
-              Health Tracking combines annual checks, report analysis, trends, guidance, orders, and reminders.
+              Hair Care is live. Annual Health Tracking is the beta product. Weight Loss Care,
+              Men&apos;s Health, and Women&apos;s Health are coming-soon verticals with careful,
+              doctor-reviewed positioning.
             </p>
           </div>
 
@@ -146,18 +133,17 @@ export default function HomePage() {
       <section className="platform-flow">
         <div className="container platform-flow__container">
           <div>
-            <p className="eyebrow">Health Tracking dashboard</p>
-            <h2>Your checkups, reports, and trends in one place.</h2>
+            <p className="eyebrow">How it works</p>
+            <h2>A common workflow across every Nidar vertical.</h2>
             <p>
-              Health Tracking is the ongoing home for annual checks, uploaded reports, biomarker
-              trends, care guidance, medication or supplement orders, and retest reminders.
+              The exact intake changes by vertical, but the safety model stays consistent: AI
+              organizes information, and clinical guidance requires licensed doctor review.
             </p>
             <div className="health-dashboard-grid">
-              {healthTrackingDashboardFeatures.map((item) => (
-                <article key={item.title} className="health-dashboard-feature">
-                  <Icon name={item.icon} />
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
+              {platformHowItWorks.map((item, index) => (
+                <article key={item} className="health-dashboard-feature">
+                  <span className="platform-step__mini">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{item}</h3>
                 </article>
               ))}
             </div>
@@ -178,12 +164,30 @@ export default function HomePage() {
       <section className="platform-packages">
         <div className="container">
           <div className="section-heading section-heading--packages">
-            <p className="eyebrow">Health Tracking packages</p>
-            <h2>Choose the checkup that matches what you want to understand.</h2>
+            <p className="eyebrow">Annual Health Tracking preview</p>
+            <h2>Track the health profiles people ask about most.</h2>
             <p>
-              At-home sample collection, lab reports explained clearly, doctor-reviewed guidance,
-              and reminders to retest when it matters.
+              Reports are organized into clear profiles, trends, and next-step context before any
+              doctor-reviewed guidance is shown.
             </p>
+          </div>
+          <div className="platform-vertical-grid platform-vertical-grid--profiles">
+            {healthTrackingProfiles.map((profile) => (
+              <article key={profile} className="platform-card platform-card--blue">
+                <div className="platform-card__top">
+                  <span className="platform-card__icon" aria-hidden="true">
+                    <Icon name="fact_check" />
+                  </span>
+                  <span className="platform-card__status">Preview</span>
+                </div>
+                <h3>{profile}</h3>
+                <p>Trend-ready marker grouping for annual tracking and doctor-reviewed guidance.</p>
+              </article>
+            ))}
+          </div>
+          <div className="section-heading section-heading--packages">
+            <p className="eyebrow">Pricing teaser</p>
+            <h2>Simple starting packages for beta validation.</h2>
           </div>
           <div className="platform-package-grid">
             {healthTrackingPackages.map((item) => (
@@ -218,20 +222,37 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-                <TrackedAnchor
-                  href={`mailto:${siteConfig.supportEmail}?subject=${encodeURIComponent(`${item.name} beta interest`)}`}
+                <TrackedLink
+                  href="/health-tracking/plans"
                   eventName="cta_click"
                   eventPayload={{ location: "health_tracking_package", package: item.name }}
                   className="button button--primary"
                 >
-                  Join beta
-                </TrackedAnchor>
+                  View plans
+                </TrackedLink>
               </article>
             ))}
           </div>
           <p className="platform-package-note">
             Final availability, partner lab coverage, and pricing are confirmed before booking.
           </p>
+        </div>
+      </section>
+
+      <section className="platform-trust platform-trust--expanded">
+        <div className="container">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Trust model</p>
+            <h2>Built for healthcare caution, not hype.</h2>
+          </div>
+          <div className="platform-vertical-grid">
+            {platformTrustItems.map((item) => (
+              <article key={item} className="platform-card platform-card--tan">
+                <h3>{item}</h3>
+                <p>No AI-only diagnosis, no automated prescribing, and no guaranteed outcomes.</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -242,26 +263,26 @@ export default function HomePage() {
               <p className="eyebrow">Live care path</p>
               <h2>Hair Care launches first. Health Tracking deepens the platform.</h2>
               <p>
-                Start with the focused adult male hair-loss dashboard, or register interest in Health
-                Tracking packages for at-home testing, explained reports, and doctor-reviewed guidance.
+                Start with the focused hair assessment, or explore Annual Health Tracking for
+                at-home testing, explained reports, biomarker trends, and doctor-reviewed guidance.
               </p>
             </div>
             <div className="button-row">
               <TrackedLink
-                href="/hair-care"
+                href="/quiz"
                 eventName="cta_click"
                 eventPayload={{ location: "platform_bottom_hair_care" }}
                 className="button button--primary"
               >
-                Open Hair Care
+                Start Hair Assessment
               </TrackedLink>
               <TrackedLink
-                href="/quiz"
+                href="/health-tracking"
                 eventName="cta_click"
-                eventPayload={{ location: "platform_bottom_quiz" }}
+                eventPayload={{ location: "platform_bottom_health_tracking" }}
                 className="button button--secondary"
               >
-                Start quiz
+                Explore Health Tracking
               </TrackedLink>
             </div>
           </div>

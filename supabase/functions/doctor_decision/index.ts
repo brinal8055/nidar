@@ -5,8 +5,11 @@ import { getStaffProfile } from "../_shared/supabase.ts";
 
 const decisionStatus: Record<string, string> = {
   approve: "approved",
+  reject: "declined",
   decline: "declined",
   refer: "referred",
+  refer_in_person: "referred",
+  request_more_info: "needs_follow_up",
   request_labs: "needs_follow_up",
   video_consult: "needs_follow_up",
 };

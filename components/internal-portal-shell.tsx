@@ -52,8 +52,8 @@ export function InternalPortalShell({ active, badge, title, subtitle, children }
 
         <div className="admin-sidebar__section">
           <p className="subtle">
-            Sample data only. Real patient data should appear here after authentication,
-            role-based access, audit logs, and backend persistence are connected.
+            Internal data loads only after Supabase Auth and RLS checks. Do not share screenshots
+            containing patient details outside approved operations workflows.
           </p>
         </div>
       </aside>

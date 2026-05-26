@@ -65,7 +65,7 @@ serve(async (request) => {
       throw new Error(caseError?.message || "Unable to create case.");
     }
 
-    await supabase.from("case_intakes").insert({
+    const { error: intakeError } = await supabase.from("case_intakes").insert({
       adult_confirmed: true,
       case_id: caseRecord.id,
       consent_accepted: true,
@@ -73,7 +73,11 @@ serve(async (request) => {
       payload: payload.quizSummary || {},
     });
 
-    await supabase.from("audit_events").insert([
+    if (intakeError) {
+      throw new Error(intakeError.message);
+    }
+
+    const { error: auditError } = await supabase.from("audit_events").insert([
       {
         case_id: caseRecord.id,
         event_type: "case_created",
@@ -85,6 +89,10 @@ serve(async (request) => {
         metadata: { adultConfirmed: true },
       },
     ]);
+
+    if (auditError) {
+      throw new Error(auditError.message);
+    }
 
     return jsonResponse({
       caseId: caseRecord.id,

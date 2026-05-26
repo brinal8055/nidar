@@ -8,6 +8,7 @@ type IconName =
   | "inventory_2"
   | "local_pharmacy"
   | "male"
+  | "monitor_heart"
   | "photo_camera"
   | "rule"
   | "science"
@@ -59,6 +60,7 @@ const iconPaths: Record<IconName, string[]> = {
   inventory_2: ["M4 7h16", "M6 7v13h12V7", "M8 4h8l2 3H6l2-3Z", "M10 11h4"],
   local_pharmacy: ["M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6Z"],
   male: ["M10 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z", "M13 7l6-6", "M15 1h4v4"],
+  monitor_heart: ["M4 6h16v12H4Z", "M7 13h2l1-3 2 6 2-5 1 2h2", "M8 21h8", "M12 18v3"],
   photo_camera: [
     "M4 8h3l1.5-2h7L17 8h3v11H4Z",
     "M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z",

@@ -10,6 +10,9 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.upload_case_media]
+verify_jwt = false
+
+[functions.get_case_media_url]
 verify_jwt = true
 
 [functions.update_fulfilment]

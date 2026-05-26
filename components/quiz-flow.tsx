@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
+import { addPendingHairPhotos, removePendingHairPhoto } from "@/lib/hair-photo-cache";
 import {
   emptyQuizData,
   normalizeQuizData,
@@ -544,12 +545,14 @@ export function QuizFlow() {
   }
 
   function handleFileChange(files: FileList | null) {
-    const selectedNames = files ? Array.from(files).map((file) => file.name) : [];
+    const selectedFiles = files ? Array.from(files) : [];
+    const selectedNames = selectedFiles.map((file) => file.name);
 
     if (!selectedNames.length) {
       return;
     }
 
+    addPendingHairPhotos(selectedFiles);
     setFormData((current) => ({
       ...current,
       photoNames: Array.from(new Set([...current.photoNames, ...selectedNames])),
@@ -562,6 +565,7 @@ export function QuizFlow() {
   }
 
   function removePhotoName(name: string) {
+    removePendingHairPhoto(name);
     setFormData((current) => ({
       ...current,
       photoNames: current.photoNames.filter((item) => item !== name),

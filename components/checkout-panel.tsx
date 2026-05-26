@@ -4,7 +4,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { trackEvent } from "@/lib/analytics";
-import { createCaseOnBackend } from "@/lib/backend-api";
+import { createCaseOnBackend, uploadCaseMediaFiles } from "@/lib/backend-api";
+import { clearPendingHairPhotos, getPendingHairPhotos } from "@/lib/hair-photo-cache";
 import { siteConfig } from "@/lib/site-content";
 import { emptyQuizData, normalizeQuizData, OrderRecord, QuizData, redFlagNoneValue, storageKeys } from "@/lib/storage";
 
@@ -59,7 +60,31 @@ export function CheckoutPanel() {
       return;
     }
 
-    const isBackendStored = Boolean(backendCase.configured && backendCase.data);
+    const backendCaseData = backendCase.configured ? backendCase.data : undefined;
+    const isBackendStored = Boolean(backendCaseData);
+    let uploadedPhotoCount = 0;
+    let uploadErrors: string[] = [];
+
+    if (isBackendStored && backendCaseData?.caseId) {
+      const pendingPhotos = getPendingHairPhotos();
+
+      if (pendingPhotos.length) {
+        const mediaResult = await uploadCaseMediaFiles({
+          caseId: backendCaseData.caseId,
+          contactEmail: formState.email,
+          files: pendingPhotos.map((photo) => photo.file),
+        });
+
+        if (mediaResult.configured) {
+          uploadedPhotoCount = mediaResult.uploaded;
+          uploadErrors = mediaResult.errors;
+
+          if (!mediaResult.errors.length) {
+            clearPendingHairPhotos();
+          }
+        }
+      }
+    }
 
     const order: OrderRecord = {
       ...(isBackendStored
@@ -82,12 +107,16 @@ export function CheckoutPanel() {
           }
         : quiz,
       backendStored: isBackendStored,
-      backendCaseId: backendCase.configured ? backendCase.data?.caseId : undefined,
-      caseNumber: backendCase.configured ? backendCase.data?.caseNumber : undefined,
+      backendCaseId: backendCaseData?.caseId,
+      caseNumber: backendCaseData?.caseNumber,
       messages: [
         isBackendStored
           ? "Your eligibility form has been securely saved to the backend."
           : "Your eligibility form has been received on this device for local testing.",
+        uploadedPhotoCount
+          ? `${uploadedPhotoCount} photo upload${uploadedPhotoCount === 1 ? "" : "s"} saved to private storage.`
+          : "Photo uploads are queued for secure storage when private upload is available.",
+        ...uploadErrors.map((error) => `Photo upload needs retry: ${error}`),
         "A doctor review is required before any prescription decision is made.",
         "Visible improvement usually takes 3-6 months if treatment is approved and used consistently.",
       ],
@@ -120,6 +149,8 @@ export function CheckoutPanel() {
       backendStored: isBackendStored,
       consultFee: siteConfig.consultFee,
       source: formState.source,
+      uploadedPhotoCount,
+      uploadErrorCount: uploadErrors.length,
     });
     trackEvent("account_status_created", { method: "consult_request", hasOrder: true });
     router.push("/thank-you");

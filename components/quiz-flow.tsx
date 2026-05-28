@@ -159,6 +159,9 @@ const photoAngles = [
   },
 ] as const;
 
+const maxPhotoSize = 8 * 1024 * 1024;
+const photoTypes = ["image/jpeg", "image/png", "image/webp"];
+
 type SafetyMultiKey = "priorTreatments" | "currentMedicines" | "allergies" | "medicalConditions";
 type ValidationKey =
   | "age"
@@ -546,6 +549,16 @@ export function QuizFlow() {
 
   function handleFileChange(files: FileList | null) {
     const selectedFiles = files ? Array.from(files) : [];
+    const invalidFile = selectedFiles.find((file) => !photoTypes.includes(file.type) || file.size > maxPhotoSize);
+
+    if (invalidFile) {
+      setValidationErrors((current) => ({
+        ...current,
+        photoNames: "Photos must be JPG, PNG, or WEBP and under 8 MB each.",
+      }));
+      return;
+    }
+
     const selectedNames = selectedFiles.map((file) => file.name);
 
     if (!selectedNames.length) {
@@ -952,10 +965,11 @@ export function QuizFlow() {
             <input
               ref={photoInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp"
               multiple
               onChange={(event) => handleFileChange(event.target.files)}
             />
+            <p className="subtle">Upload progress is shown at submission. Photos are kept private and uploaded to secure case media storage when the backend is configured.</p>
             {errorFor("photoNames")}
           </label>
           {formData.photoNames.length ? (

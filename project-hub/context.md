@@ -1,31 +1,38 @@
 # Context Snapshot
 
-Updated: April 21, 2026
+Updated: May 28, 2026
 
 ## Product Direction
 
-- Product: India D2C telehealth MVP
-- Public launch wedge: adult hair-loss treatment only
-- Positioning: doctor-reviewed treatment plans for adult male hair loss, from home
-- Product shape: web-first, mobile-optimized, SSR marketing pages plus workflow-heavy intake
+- Product: Nidar Health consumer health platform
+- Public launch wedge: adult hair-loss treatment first
+- Annual Health Tracking Phase 1 direction: web MVP for lab reports, symptoms, goals, AI-assisted processing, doctor review, and manual lab/pharmacy fulfilment
+- Long-term platform direction: personal health data layer across lab reports, symptoms, goals, manual lifestyle data, and later wearables/genetics
+- Positioning: doctor-reviewed care and health tracking from home
+- Product shape: web-first, mobile-optimized, static-export marketing pages plus workflow-heavy intake
 - AI boundary: AI can assist ops and structuring, but cannot diagnose, counsel independently, or prescribe
+- Phase 1 operating target: process the first 50-100 users manually but safely, then move to a 100-500 user controlled beta before heavy integrations
+- Brand story: No fear. Get care.
+- Tagline: Care without hesitation.
 
 ## Current Codebase State
 
 - Stack: Next.js 16.2.4, React 19.2.5, TypeScript, App Router
 - Styling: custom global CSS in `app/globals.css`
 - Content/config: `lib/site-content.ts`
-- Local-only persistence for MVP screens: `lib/storage.ts`
+- Supabase is the intended v1 backend for cases, intakes, reviews, audit logs, and private media
 - Event hooks: `lib/analytics.ts`
-- Internal workflow mock data: `lib/admin/mock-data.ts`
-- Public site direction: `DESIGN.md` plus the pasted Medvi homepage HTML as the active reference for hero structure, filmstrip, tab bar, alternating collage sections, softer trust bar, and premium serif/sans hierarchy
+- Active Annual Health Tracking MVP plan: `project-hub/annual-health-phase-1.md`
+- Health data layer reference: `project-hub/health-data-layer.md`
 - MVP clinical/product boundary: support adult male pattern hair-loss review first; route female hair loss, minors, patchy sudden loss, severe scalp disease, PRP, and transplant needs away from the online prescription flow
 
 ## Implemented Frontend Areas
 
-- Home page
-- Redesigned public homepage around the Medvi structural pattern
-- Tightened the homepage to a cleaner Medvi-like sequence with simplified public nav, horizontal filmstrip, active category tabs, collage showcase sections, ecosystem app block, trust row, FAQ, and a final assessment CTA
+- Platform homepage with Hair Care, Annual Health Tracking, Weight Loss Care, Men's Health, and Women's Health verticals
+- Hair Care remains the first live funnel
+- Annual Health Tracking is the beta product surface, now evolving toward a broader personal health data layer
+- Weight Loss Care, Men's Health, and Women's Health are coming-soon verticals
+- Dedicated Health Tracking pages, plans, quiz, thank-you, and demo dashboard
 - How it works page
 - Pricing page
 - FAQ page
@@ -46,7 +53,7 @@ Updated: April 21, 2026
 - Secure patient photo upload backend
 - Real payment gateway integration
 - Real analytics destination
-- Doctor/admin dashboard
+- Doctor/admin dashboard is present as a shell but not wired to real Health Tracking report review yet
 - Messaging and order orchestration
 - Real doctor identity, qualification, and registration details
 - Final legal/compliance copy
@@ -65,7 +72,9 @@ Updated: April 21, 2026
 - Not for emergencies messaging must stay visible
 - Avoid exaggerated medical claims or superiority claims
 - Build public web before native apps
+- Annual Health Tracking MVP must not include wearables, genetics, ABDM/ABHA, native mobile apps, external doctor marketplaces, or direct lab/pharmacy API dependencies
+- MVP operations should use Nidar-owned doctor dashboard, local NABL lab/manual ops, and licensed local pharmacy fulfilment before scaling into partner APIs
 
 ## Best Next Engineering Slice
 
-The most logical next implementation area is replacing mock local and static admin state with a real backend/auth model so the public funnel and internal dashboard can operate on the same case records.
+The most logical next implementation area is Health Tracking Phase 1 backend and ops wiring: report upload, lab booking request, OCR/biomarker extraction, doctor review queue, final report publishing, reminders, and manual partner fulfilment.

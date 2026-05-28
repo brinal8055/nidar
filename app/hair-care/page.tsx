@@ -1,5 +1,6 @@
 import { FaqList } from "@/components/faq-list";
 import { Icon } from "@/components/icon";
+import { TrustSafetySection } from "@/components/trust-safety-section";
 import { TrackedAnchor, TrackedLink } from "@/components/tracked-link";
 import {
   ecosystemFeatures,
@@ -24,7 +25,7 @@ export default function HairCarePage() {
             </p>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "hair_care_hero_primary" }}
                 className="button button--primary"
@@ -213,6 +214,8 @@ export default function HairCarePage() {
         </div>
       </section>
 
+      <TrustSafetySection />
+
       <section className="section section--tinted" id="faq">
         <div className="container">
           <div className="section-heading">
@@ -236,7 +239,7 @@ export default function HairCarePage() {
             </div>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "hair_care_bottom_cta_primary" }}
                 className="button button--primary"

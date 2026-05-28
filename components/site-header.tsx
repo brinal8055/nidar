@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { navigation, siteConfig } from "@/lib/site-content";
 import { TrackedLink } from "@/components/tracked-link";
 
 export function SiteHeader() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className="site-header">
       <div className="container site-header__inner">
@@ -24,18 +29,40 @@ export function SiteHeader() {
 
         <div className="site-header__actions">
           <Link href="/staff/login" className="site-header__staff-link">
-            Staff login
+            For clinicians
           </Link>
           <TrackedLink
-            href="/hair-care"
+            href="/hair-care/intake"
             eventName="cta_click"
             eventPayload={{ location: "header" }}
             className="button button--primary button--compact"
           >
-            Get care
+            Start assessment
           </TrackedLink>
+          <button
+            type="button"
+            className="site-header__menu-button"
+            aria-label="Open navigation menu"
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((current) => !current)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
       </div>
+      {isOpen ? (
+        <nav className="site-header__mobile-nav" aria-label="Mobile primary">
+          <div className="container">
+            {navigation.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      ) : null}
     </header>
   );
 }

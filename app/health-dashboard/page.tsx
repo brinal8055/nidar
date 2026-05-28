@@ -1,10 +1,11 @@
 const biomarkers = [
-  { name: "Vitamin D", value: "18", unit: "ng/mL", status: "Low" },
-  { name: "B12", value: "312", unit: "pg/mL", status: "Borderline" },
-  { name: "TSH", value: "2.4", unit: "mIU/L", status: "Normal" },
-  { name: "HbA1c", value: "5.8", unit: "%", status: "Borderline" },
-  { name: "LDL", value: "128", unit: "mg/dL", status: "High" },
-  { name: "SGPT", value: "34", unit: "U/L", status: "Normal" },
+  { name: "Vitamin D", value: "18", unit: "ng/mL", status: "low" },
+  { name: "B12", value: "312", unit: "pg/mL", status: "borderline" },
+  { name: "TSH", value: "2.4", unit: "mIU/L", status: "normal" },
+  { name: "HbA1c", value: "5.8", unit: "%", status: "borderline" },
+  { name: "LDL", value: "128", unit: "mg/dL", status: "high" },
+  { name: "SGPT", value: "34", unit: "U/L", status: "normal" },
+  { name: "Creatinine", value: "1.4", unit: "mg/dL", status: "critical" },
 ];
 
 export default function HealthDashboardPage() {
@@ -26,7 +27,7 @@ export default function HealthDashboardPage() {
             <strong>
               {marker.value} <small>{marker.unit}</small>
             </strong>
-            <p>{marker.status}</p>
+            <p className={`status-badge status-badge--${marker.status}`}>{marker.status}</p>
           </article>
         ))}
       </div>

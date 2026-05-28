@@ -10,7 +10,15 @@ export default function HealthTrackingThankYouPage() {
           The current beta request is stored locally for demo validation. Production booking will
           save consent, package selection, lab order status, and follow-up reminders to the backend.
         </p>
+        <ul className="summary-list">
+          <li>Our team will confirm availability, lab coverage, and pricing before booking.</li>
+          <li>Sample collection or report upload status is visible in Account on this device.</li>
+          <li>AI-organized summaries do not replace doctor-reviewed guidance.</li>
+        </ul>
         <div className="button-row">
+          <Link href="/account" className="button button--primary">
+            View account status
+          </Link>
           <Link href="/health-dashboard" className="button button--primary">
             Preview dashboard
           </Link>

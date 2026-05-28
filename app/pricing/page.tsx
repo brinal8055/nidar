@@ -13,7 +13,10 @@ const pricingSections = [
           "Adult hair-loss eligibility intake",
           "Standard photo set before review",
           "Doctor assessment before any prescription decision",
+          "Treatment may be declined if unsuitable",
         ],
+        ctaLabel: "Start Hair Assessment",
+        ctaHref: "/hair-care/intake",
       },
       {
         name: "Hair Care Plan",
@@ -24,6 +27,8 @@ const pricingSections = [
           "Progress tracking reminders",
           "Medicine cost may vary based on doctor prescription.",
         ],
+        ctaLabel: "Start Assessment",
+        ctaHref: "/hair-care/intake",
       },
     ],
   },
@@ -35,19 +40,25 @@ const pricingSections = [
         name: "Basic Annual Health",
         price: "₹1,499-₹2,499",
         note: "Yearly baseline",
-        details: ["CBC", "Thyroid, liver, kidney, lipid, and sugar profile", "Plain-language report summary"],
+        details: ["CBC", "Thyroid, liver, kidney, lipid, and sugar profile", "Home sample collection through partner labs", "Plain-language report summary", "Doctor-reviewed guidance"],
+        ctaLabel: "Join Beta",
+        ctaHref: "/health-tracking/intake",
       },
       {
         name: "Vitamin & Fatigue",
         price: "₹1,999-₹3,499",
         note: "Deficiency focused",
         details: ["Vitamin D", "Vitamin B12, ferritin, CBC, and thyroid profile", "Retest reminder where appropriate"],
+        ctaLabel: "Join Beta",
+        ctaHref: "/health-tracking/intake",
       },
       {
         name: "Diabetes Risk",
         price: "₹1,999-₹3,999",
         note: "Metabolic tracking",
         details: ["HbA1c and fasting glucose", "Lipid and kidney profile", "Trend-ready dashboard preview"],
+        ctaLabel: "Join Beta",
+        ctaHref: "/health-tracking/intake",
       },
     ],
     footer: "Final test package pricing may vary by city and lab partner.",
@@ -66,6 +77,8 @@ const pricingSections = [
           "GLP-1 suitability may be discussed only after licensed doctor review.",
           "No specific drug promotion or weight-loss guarantee.",
         ],
+        ctaLabel: "Join Waitlist",
+        ctaHref: "/weight-loss/waitlist",
       },
     ],
   },
@@ -111,6 +124,9 @@ export default function PricingPage() {
                       <li key={detail}>{detail}</li>
                     ))}
                   </ul>
+                  <Link href={card.ctaHref} className="button button--primary">
+                    {card.ctaLabel}
+                  </Link>
                 </article>
               ))}
             </div>
@@ -128,13 +144,21 @@ export default function PricingPage() {
           </p>
         </div>
         <div className="button-row">
-          <Link href="/quiz" className="button button--primary">
+          <Link href="/hair-care/intake" className="button button--primary">
             Start Hair Assessment
           </Link>
-          <Link href="/health-tracking" className="button button--secondary">
-            Explore Health Tracking
+          <Link href="/health-tracking/intake" className="button button--secondary">
+            Join Health Tracking Beta
           </Link>
         </div>
+      </div>
+      <div className="container eligibility-note">
+        <strong>Pricing notes</strong>
+        <p>
+          Final pricing may vary by city and lab partner. Prescription medicine cost is separate
+          unless explicitly included. No medication is guaranteed. Clinical guidance requires
+          licensed doctor review.
+        </p>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { Icon } from "@/components/icon";
+import { TrustSafetySection } from "@/components/trust-safety-section";
 import { TrackedLink } from "@/components/tracked-link";
 import {
   healthTrackingProfiles,
@@ -37,7 +38,7 @@ export default function HomePage() {
             </p>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "platform_hero_hair_assessment" }}
                 className="button button--primary"
@@ -45,7 +46,7 @@ export default function HomePage() {
                 Start Hair Assessment
               </TrackedLink>
               <TrackedLink
-                href="/health-tracking"
+                href="/health-tracking/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "platform_hero_health_tracking" }}
                 className="button button--secondary"
@@ -223,12 +224,12 @@ export default function HomePage() {
                   </ul>
                 </div>
                 <TrackedLink
-                  href="/health-tracking/plans"
+                  href="/health-tracking/intake"
                   eventName="cta_click"
                   eventPayload={{ location: "health_tracking_package", package: item.name }}
                   className="button button--primary"
                 >
-                  View plans
+                  Join beta
                 </TrackedLink>
               </article>
             ))}
@@ -256,6 +257,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <TrustSafetySection />
+
       <section className="home-cta">
         <div className="container">
           <div className="home-cta__shell">
@@ -269,7 +272,7 @@ export default function HomePage() {
             </div>
             <div className="button-row">
               <TrackedLink
-                href="/quiz"
+                href="/hair-care/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "platform_bottom_hair_care" }}
                 className="button button--primary"
@@ -277,7 +280,7 @@ export default function HomePage() {
                 Start Hair Assessment
               </TrackedLink>
               <TrackedLink
-                href="/health-tracking"
+                href="/health-tracking/intake"
                 eventName="cta_click"
                 eventPayload={{ location: "platform_bottom_health_tracking" }}
                 className="button button--secondary"

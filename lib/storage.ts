@@ -1,6 +1,8 @@
 export const storageKeys = {
   quiz: "nidar.quiz.v1",
   order: "nidar.order.v1",
+  healthTrackingRequest: "nidar.healthTrackingRequest.v1",
+  weightLossWaitlist: "nidar.weightLossWaitlist.v1",
 } as const;
 
 export const safetyNoneValues = {
@@ -166,4 +168,30 @@ export type OrderRecord = {
   caseNumber?: string;
   messages: string[];
   statuses: OrderStatus[];
+};
+
+export type HealthTrackingRequestRecord = {
+  id: string;
+  packageType: string;
+  status: string;
+  cityState: string;
+  contact: string;
+  collectionMode: "sample_collection" | "report_upload";
+  createdAt: string;
+  bmi: string;
+  goals: string[];
+  reportFileNames: string[];
+};
+
+export type WaitlistRecord = {
+  id: string;
+  vertical: "weight_loss";
+  name: string;
+  contact: string;
+  city: string;
+  ageRange: string;
+  primaryInterest: string;
+  knownConditions: string;
+  consent: boolean;
+  createdAt: string;
 };

@@ -80,3 +80,60 @@ Admin, ops, and doctor portals should never rely on obscure URLs or frontend-onl
 
 Reason:
 Auditability matters more than cache speed for early healthcare operations. Postgres remains the source of truth; Redis can be reconsidered later only for non-sensitive rate limits, locks, or short-lived job state.
+
+## May 28, 2026
+
+### Health Tracking becomes a personal health data layer
+
+Reason:
+The platform should not be limited to annual lab reports. The stronger long-term product is a longitudinal health layer combining lab biomarkers, symptoms, goals, lifestyle inputs, doctor notes, and later wearable/genetics data.
+
+### MVP Health Tracking starts with labs, symptoms, goals, and manual inputs
+
+Reason:
+Lab reports plus questionnaires are the fastest, highest-value web-first path. PDF upload and structured biomarker extraction can validate the product before mobile apps, wearable integrations, or genetics are introduced.
+
+### Wearables are Phase 2, not MVP
+
+Reason:
+Wearable summaries can be valuable for activity, sleep, heart, recovery, weight, and metabolic tracking, but native HealthKit/Health Connect work or aggregator integrations add platform complexity. Do not collect raw sensor data in MVP.
+
+### Genetics is Phase 3 with separate governance
+
+Reason:
+Genetic data is highly sensitive, difficult to interpret safely, and not needed for the first product value. Any future genetics work needs separate consent, stricter access, encryption, no marketing use, no casual analytics mixing, and specialist review.
+
+### Consent must be source-wise
+
+Reason:
+Users should explicitly consent by data source and use case: lab reports, wearable data, symptom data, genetic data, doctor review, and partner sharing. This supports safer product behavior and future privacy-right workflows.
+
+### Annual Health Tracking Phase 1 stays manual-ops-friendly
+
+Reason:
+The first target is 50-100 users, then a 100-500 user controlled beta. The MVP should validate demand and workflow before Nidar is locked into lab, pharmacy, doctor-network, ABDM, wearable, or genetics integrations. Manual ops are acceptable if consent, auditability, doctor review, and licensed fulfilment are preserved.
+
+### MVP packages are limited to three
+
+Reason:
+Basic Annual Health, Vitamin & Fatigue, and Diabetes / Metabolic Risk are enough to validate preventive care, fatigue/deficiency demand, and metabolic-risk demand without creating an overwhelming catalog.
+
+### Nidar-owned doctor dashboard is the MVP review model
+
+Reason:
+Using known MBBS/MD doctors through Nidar's own dashboard gives the fastest learning, lowest integration dependency, and strongest control over protocol quality for the first 50-500 users. Third-party doctor platforms should be evaluated after traction.
+
+### Local lab and local licensed pharmacy are preferred for the first city pilot
+
+Reason:
+A local NABL-accredited lab and local licensed pharmacy can support the first 30-60 days faster than national API partnerships. National partners such as Healthians, Thyrocare, Tata 1mg, Redcliffe, PharmEasy, Netmeds, or MedPlus can be evaluated after workflow and demand are proven.
+
+### Health AI is a pipeline of small agents, not one big health agent
+
+Reason:
+Report extraction, biomarker normalization, risk flagging, doctor-facing draft insights, doctor review assistance, user-friendly rewriting, and compliance checking have different safety boundaries. Separating them keeps outputs auditable and easier for doctors to review.
+
+### Doctor approval happens before final user report publishing
+
+Reason:
+The safer flow is extraction -> doctor-facing draft -> doctor edit -> user-friendly rewrite -> final doctor approval. This avoids over-reliance on AI-written clinical guidance and keeps licensed doctors as the final authority.

@@ -1,14 +1,14 @@
 import { HealthTrackingQuiz } from "@/components/health-tracking-quiz";
 
-export default function HealthTrackingQuizPage() {
+export default function HealthTrackingIntakePage() {
   return (
     <section className="section">
       <div className="container page-intro">
         <p className="eyebrow">Health Tracking Beta</p>
-        <h1>Tell us what you want to track.</h1>
+        <h1>Join the annual health tracking beta.</h1>
         <p>
-          This beta intake helps Nidar understand your goals, testing needs, package preference,
-          collection or report-upload path, and consent before any follow-up.
+          Submit goals, package preference, sample collection or report upload details, and consent.
+          Our team confirms availability, lab coverage, and pricing before booking.
         </p>
       </div>
       <div className="container">

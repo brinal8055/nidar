@@ -42,7 +42,7 @@ export default function HealthTrackingPlansPage() {
                 ))}
               </ul>
             </div>
-            <Link href="/health-tracking/quiz" className="button button--primary">
+            <Link href="/health-tracking/intake" className="button button--primary">
               Join beta
             </Link>
           </article>

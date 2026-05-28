@@ -212,6 +212,45 @@ ul {
   color: var(--text-primary);
 }
 
+.site-header__menu-button {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(27, 48, 34, 0.14);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  place-items: center;
+  gap: 0.22rem;
+  padding: 0.7rem;
+}
+
+.site-header__menu-button span {
+  display: block;
+  width: 1.1rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+
+.site-header__mobile-nav {
+  display: none;
+  border-top: 1px solid rgba(115, 121, 115, 0.15);
+  background: rgba(251, 249, 246, 0.98);
+}
+
+.site-header__mobile-nav .container {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 0 1rem;
+}
+
+.site-header__mobile-nav a {
+  padding: 0.9rem 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .site-header__meta {
   color: var(--text-muted);
   font-size: 0.84rem;
@@ -263,6 +302,16 @@ ul {
 .button--ghost {
   background: transparent;
   border-color: var(--outline-variant);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(193, 143, 75, 0.75);
+  outline-offset: 3px;
 }
 
 .platform-hero {
@@ -1968,6 +2017,21 @@ ul {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.health-preview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.health-preview-grid__summary {
+  align-content: start;
+}
+
+.trust-link-row {
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
 .card {
   display: grid;
   gap: 0.9rem;
@@ -2096,6 +2160,21 @@ ul {
 .faq-list {
   display: grid;
   gap: 0.9rem;
+}
+
+.faq-section-stack {
+  display: grid;
+  gap: 2rem;
+}
+
+.faq-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.faq-section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
 .faq-item {
@@ -2988,9 +3067,22 @@ ul {
 .status-badge--approved,
 .status-badge--delivered,
 .status-badge--doctor,
-.status-badge--operations {
+.status-badge--operations,
+.status-badge--normal {
   background: rgba(150, 163, 132, 0.18);
   color: #3e5139;
+}
+
+.status-badge--low,
+.status-badge--borderline {
+  background: rgba(245, 230, 190, 0.82);
+  color: #6d4b1f;
+}
+
+.status-badge--high,
+.status-badge--critical {
+  background: rgba(255, 218, 214, 0.82);
+  color: #8a2f21;
 }
 
 .status-badge--follow_up,
@@ -3070,6 +3162,7 @@ ul {
   .site-footer__grid,
   .home-cta__shell,
   .card-grid--three,
+  .health-preview-grid,
   .admin-metrics-grid,
   .admin-filter-grid,
   .admin-two-col,
@@ -3081,6 +3174,14 @@ ul {
 
   .site-nav {
     display: none;
+  }
+
+  .site-header__mobile-nav {
+    display: block;
+  }
+
+  .site-header__menu-button {
+    display: grid;
   }
 
   .site-header__actions {
@@ -3173,6 +3274,10 @@ ul {
   .site-header__actions {
     width: auto;
     justify-content: flex-end;
+  }
+
+  .site-header__staff-link {
+    display: none;
   }
 
   .site-header__meta {

@@ -1,26 +1,19 @@
-import Link from "next/link";
+import { WeightLossWaitlistForm } from "@/components/weight-loss-waitlist-form";
 
 export default function WeightLossWaitlistPage() {
   return (
     <section className="section">
-      <div className="container card card--hero">
+      <div className="container page-intro">
         <p className="eyebrow">Weight Loss Care waitlist</p>
-        <h1>Join the coming-soon list.</h1>
+        <h1>Doctor-led metabolic care is coming soon.</h1>
         <p>
-          This is a conservative demand-validation page. GLP-1 suitability, prescriptions, and
-          clinical recommendations require licensed doctor review and eligibility screening.
+          Join the waitlist for eligibility screening, lab review, doctor supervision, lifestyle
+          support, and tracking when this pathway becomes available. No medicine access or outcome
+          is guaranteed.
         </p>
-        <div className="button-row">
-          <a
-            href="mailto:support@nidar.health?subject=Weight%20Loss%20Care%20waitlist"
-            className="button button--primary"
-          >
-            Email interest
-          </a>
-          <Link href="/weight-loss" className="button button--secondary">
-            Back
-          </Link>
-        </div>
+      </div>
+      <div className="container">
+        <WeightLossWaitlistForm />
       </div>
     </section>
   );

@@ -69,6 +69,10 @@ export async function createCaseOnBackend(input: CreateCaseInput): Promise<Creat
   return { configured: true, data };
 }
 
+export async function createHairCase(input: CreateCaseInput): Promise<CreateCaseResult> {
+  return createCaseOnBackend(input);
+}
+
 export async function uploadCaseMediaFiles(input: UploadCaseMediaInput): Promise<UploadCaseMediaResult> {
   const supabase = getSupabaseBrowserClient();
 
@@ -111,4 +115,8 @@ export async function uploadCaseMediaFiles(input: UploadCaseMediaInput): Promise
   }
 
   return { configured: true, uploaded, errors };
+}
+
+export async function uploadCaseMedia(input: UploadCaseMediaInput): Promise<UploadCaseMediaResult> {
+  return uploadCaseMediaFiles(input);
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { legalNav, siteConfig } from "@/lib/site-content";
+import { legalNav, navigation, siteConfig } from "@/lib/site-content";
 import { TrackedAnchor } from "@/components/tracked-link";
 
 export function SiteFooter() {
@@ -11,6 +11,13 @@ export function SiteFooter() {
 
         <nav className="site-footer__nav" aria-label="Footer">
           <ul className="footer-list footer-list--inline">
+            {navigation
+              .filter((item) => item.label !== "For clinicians")
+              .map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link href={item.href}>{item.label}</Link>
@@ -24,9 +31,6 @@ export function SiteFooter() {
               >
                 Contact
               </TrackedAnchor>
-            </li>
-            <li>
-              <Link href="/pricing">Pricing</Link>
             </li>
           </ul>
         </nav>

@@ -31,7 +31,7 @@ export default function HowItWorksPage() {
           ))}
         </ul>
         <TrackedLink
-          href="/quiz"
+          href="/hair-care/intake"
           eventName="cta_click"
           eventPayload={{ location: "how_it_works" }}
           className="button button--primary"

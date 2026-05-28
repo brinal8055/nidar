@@ -10,6 +10,8 @@ It is meant to let future tasks start from stable project context instead of reb
 - `tasks.md`: active workboard and next implementation slices
 - `decisions.md`: important decisions and assumptions already made
 - `open-questions.md`: unresolved items that could affect future work
+- `annual-health-phase-1.md`: Annual Health Tracking web MVP operating plan for the first 50-500 users
+- `health-data-layer.md`: longer-term personal health data layer strategy after MVP validation
 
 ## Working Pattern
 
@@ -28,6 +30,10 @@ The source of truth for implementation remains:
 - `components/`
 - `lib/`
 
-The source of truth for strategy remains:
+The source of truth for legacy strategy remains:
 
 - `Phased implementation plan for your India D2C telehealth MVP.pdf`
+
+The active Annual Health Tracking implementation strategy is:
+
+- `annual-health-phase-1.md`
